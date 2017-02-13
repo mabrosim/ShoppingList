@@ -38,3 +38,9 @@ captures/
 
 # Keystore files
 *.jks
+
+# Maxim's extra
+*~
+.bak
+/.idea
+.DS_Store

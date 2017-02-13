@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="EditButtonStyle" parent="EditButtonStyleNoMargin">
+        <item name="android:layout_marginLeft">6dp</item>
+    </style>
+
+    <style name="EditTexTitleStyle" parent="EditTexTitleStyleNoMargin">
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingLeft">2dp</item>
+    </style>
+</resources>

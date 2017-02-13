@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        applicationId "fi.mabrosim.shoppinglist"
+
+        versionCode 1
+        versionName "17w07.1"
+    }
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:unchecked', '-Xlint:deprecation']
+}
+
+android.applicationVariants.all { variant ->
+    variant.resValue "string", "versionName", variant.versionName
+}
+
+dependencies {
+    compile project(':protobuf')
+    compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
+    compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
+    compile 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
+    compile 'com.github.satyan:sugar:1.5'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile('com.opencsv:opencsv:3.8') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'commons-beanutils', module: 'commons-beanutils'
+    }
+    testCompile 'junit:junit:' + rootProject.ext.junitVersion
+}

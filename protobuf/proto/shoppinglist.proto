@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package protobuf;
+
+option java_package = "fi.mabrosim.shoppinglist.protobuf";
+option java_outer_classname = "Protos";
+option optimize_for = LITE_RUNTIME;
+
+message PbItem {
+    int64 id = 1;
+    string name = 2;
+    string quantity = 3;
+    // array of checked timestamps in "yyyyMMddHHmmss" format
+    repeated int64 checked = 4;
+    // array of unchecked timestamps in "yyyyMMddHHmmss" format
+    repeated int64 unchecked = 5;
+    bool is_checked = 6;
+    // timestamp in "yyyyMMddHHmmss" format
+    int64 checked_time = 8;
+    // timestamp in "yyyyMMddHHmmss" format
+    int64 unchecked_time = 9;
+}
+
+message PbLabel {
+    int64 id = 1;
+    string name = 2;
+    repeated PbItem item = 3;
+}
+
+message PbItemList {
+    int64 id = 1;
+    string name = 2;
+    repeated PbLabel label = 3;
+}

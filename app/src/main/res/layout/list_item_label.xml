@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="?android:attr/listPreferredItemHeightSmall"
+              android:baselineAligned="true"
+              android:drawablePadding="3dp"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingEnd="4dp"
+              android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+              android:paddingRight="4dp"
+              android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft">
+
+    <TextView
+        android:id="@+id/labelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:textSize="20sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/itemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1.2dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp">
+    </TextView>
+</LinearLayout>
+

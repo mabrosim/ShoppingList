@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shopping List</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="name">Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="label">Label</string>
+    <string name="prepare_list">Prepare List</string>
+    <string name="at_the_shop">At The Shop</string>
+    <string name="edit_items">Edit Items</string>
+    <string name="share">Share via …</string>
+    <string name="export_pb_items">Export PB items</string>
+    <string name="import_items">Import items</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="uncheck_all">Uncheck All</string>
+    <string name="add_item">Add item</string>
+    <string name="add_label">Add label</string>
+    <string name="please_wait">Please, wait</string>
+    <string name="google_cloud">Google cloud</string>
+    <string name="debug_show_exported_data">Debug: Show exported proto data</string>
+    <string name="debug_show_exported_data_csv">Debug: Show exported csv data</string>
+    <string name="debug_export_to_csv">Debug: Export to csv</string>
+    <string name="debug_delete_all_from_db">Debug: Delete all from database</string>
+    <string name="debug_export_to_json">Debug: Export to json</string>
+    <string name="debug_show_exported_data_json">Debug: Show exported json data</string>
+</resources>

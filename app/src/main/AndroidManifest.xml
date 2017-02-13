@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="fi.mabrosim.shoppinglist"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name=".ShoppingListApp"
+        android:allowBackup="true"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.StartActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.ImportFromFileActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/ImportFromFileTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\.pb"
+                    android:scheme="file"/>
+            </intent-filter>
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.GET_CONTENT"/>
+
+                <data
+                    android:mimeType="application/octet-stream"
+                    android:pathPattern=".*\\.pb"
+                    android:scheme="content"/>
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".ui.editors.EditItemActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
+            android:name=".ui.editors.AddItemActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
+            android:name=".ui.editors.EditLabelActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
+            android:name=".ui.editors.AddLabelActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fi.mabrosim.shoppinglist.ui.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.PreviewExportedPbActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fi.mabrosim.shoppinglist.ui.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.PreviewExportedCsvActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fi.mabrosim.shoppinglist.ui.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.PreviewExportedJsonActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fi.mabrosim.shoppinglist.ui.MainActivity"/>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/my_paths"/>
+        </provider>
+
+        <!-- SUGAR ORM START -->
+        <meta-data
+            android:name="DATABASE"
+            android:value="items.db"/>
+        <meta-data
+            android:name="VERSION"
+            android:value="7"/>
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="false"/>
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="fi.mabrosim.shoppinglist.data.records"/>
+        <!-- SUGAR ORM END -->
+    </application>
+
+</manifest>

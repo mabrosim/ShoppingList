@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="fi.mabrosim.shoppinglist"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- GoogleAppIndexingWarning: wear app is distributed bundled into the mobile app -->
+    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <!-- SUGAR ORM START -->
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true"
+            tools:replace="android:value"/>
+        <!-- SUGAR ORM END -->
+    </application>
+
+</manifest>
