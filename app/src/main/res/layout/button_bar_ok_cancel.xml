@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/TextLineLayoutStyle"
+              xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+        android:id="@+id/buttonCancel"
+        style="@style/EditButtonStyle2"
+        android:layout_gravity="end"
+        android:onClick="onCancelButtonClick"
+        android:src="@drawable/ic_clear_black_24dp"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="12dp"
+        android:layout_height="match_parent"/>
+
+    <ImageButton
+        android:id="@+id/buttonOk"
+        style="@style/EditButtonStyle2"
+        android:layout_gravity="start"
+        android:onClick="onOkButtonClick"
+        android:src="@drawable/ic_check_black_24dp"/>
+
+</LinearLayout>

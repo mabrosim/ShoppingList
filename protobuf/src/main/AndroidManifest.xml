@@ -1,0 +1,13 @@
+<manifest package="fi.mabrosim.shoppinglist.protobuf"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- GoogleAppIndexingWarning: internal library -->
+    <application
+        tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="PROTOBUF_DATA_VERSION"
+            android:value="1"/>
+    </application>
+
+</manifest>

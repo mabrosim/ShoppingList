@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="320dp"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:overScrollMode="never"
+              android:padding="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/label"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@android:color/darker_gray"/>
+
+    <LinearLayout
+        style="@style/TextLineLayoutStyle">
+
+        <EditText
+            android:id="@+id/editName"
+            style="@style/EditTextStyle"/>
+
+        <ImageButton
+            android:id="@+id/button1"
+            style="@style/EditButtonStyle"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/button_bar_ok_cancel"/>
+</LinearLayout>
+
