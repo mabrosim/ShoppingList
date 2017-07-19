@@ -44,8 +44,8 @@ dependencies {
     compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
     compile 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
     compile 'com.github.satyan:sugar:1.5'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile('com.opencsv:opencsv:3.8') {
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
