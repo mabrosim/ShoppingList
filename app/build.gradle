@@ -10,8 +10,8 @@ android {
 
         applicationId "fi.mabrosim.shoppinglist"
 
-        versionCode 2
-        versionName "17w29.5"
+        versionCode 3
+        versionName "17w30.2"
     }
     sourceSets {
         main {
