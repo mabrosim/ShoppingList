@@ -50,4 +50,5 @@ dependencies {
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
     testCompile 'junit:junit:' + rootProject.ext.junitVersion
+    testCompile "org.robolectric:robolectric:3.3.2"
 }

@@ -213,7 +213,7 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         return mLogCheckedList;
     }
 
-    private List<Long> getLogUncheckedList() {
+    public List<Long> getLogUncheckedList() {
         loadLogUncheckedList();
         return mLogUncheckedList;
     }
