@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.data.ProtoEntity;
 import fi.mabrosim.shoppinglist.protobuf.Protos.PbItemList;
 import fi.mabrosim.shoppinglist.protobuf.Protos.PbLabel;
@@ -35,20 +36,30 @@ public class ItemList extends ProtoEntity<PbItemList> {
         }
     }
 
+    private static final String TAG = "ItemList";
+
     @Override
     public PbItemList toPbObject() {
         PbItemList.Builder builder = PbItemList.newBuilder();
         builder.setName(name);
-
-        // XXX hack
-        List<Label> labels;
-        labels = Label.listAll(Label.class);
         if (getId() != null) {
             builder.setId(getId());
         }
-        for (Label label : labels) {
-            builder.addLabel(label.toPbObject());
+
+        final List<String> labels = new ArrayList<>();
+        final List<Item> items = Item.listAll(Item.class);
+
+        for (Item item : items) {
+            String label = item.getLabelName();
+            if (!labels.contains(label)) {
+                labels.add(label);
+            }
         }
+
+        for (String label : labels) {
+            builder.addLabel(new Label(label).toPbObject());
+        }
+
         return builder.build();
     }
 

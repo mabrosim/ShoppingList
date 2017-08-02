@@ -1,40 +1,27 @@
-package fi.mabrosim.shoppinglist.data.records;
+package fi.mabrosim.shoppinglist.data;
 
-import com.orm.dsl.Ignore;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.mabrosim.shoppinglist.data.ProtoEntity;
+import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.protobuf.Protos.PbItem;
 import fi.mabrosim.shoppinglist.protobuf.Protos.PbLabel;
 
-public class Label extends ProtoEntity<PbLabel> {
-    private       String     name   = "Other";
-    @Ignore
-    private final List<Item> mItems = new ArrayList<>();
+public class Label extends Proto<PbLabel> {
+    private String name = "";
 
-    public Label() {
-    }
+    private final List<Item> mItems = new ArrayList<>();
 
     public Label(String labelName) {
         name = labelName;
     }
 
-    public Label(InputStream is) throws IOException {
-        this(PbLabel.parseFrom(is));
-    }
-
     public Label(PbLabel pbLabel) {
-        this();
         name = pbLabel.getName();
-        setId(pbLabel.getId());
 
         for (PbItem pbItem : pbLabel.getItemList()) {
             Item item = new Item(pbItem);
-            item.setLabel(this);
+            item.setLabel(name);
             mItems.add(item);
         }
     }
@@ -56,15 +43,7 @@ public class Label extends ProtoEntity<PbLabel> {
         PbLabel.Builder builder = PbLabel.newBuilder();
         builder.setName(name);
 
-        // XXX hack
-        List<Item> items;
-
-        if (getId() != null) {
-            builder.setId(getId());
-            items = Item.findByLabelId(getId());
-        } else {
-            items = Item.listAll(Item.class);
-        }
+        List<Item> items = Item.find(Item.class, "LABEL_NAME LIKE ?", name);
         for (Item item : items) {
             builder.addItem(item.toPbObject());
         }

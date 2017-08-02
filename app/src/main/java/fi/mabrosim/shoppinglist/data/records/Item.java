@@ -29,8 +29,8 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
     private String  logUnchecked  = "";
     private long    checkedTime   = -1L;
     private long    uncheckedTime = -1L;
+    private String  labelName     = "";
 
-    private Label    label;
     private ItemList itemList;
 
     @Ignore
@@ -158,12 +158,12 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         this.name = name;
     }
 
-    public Label getLabel() {
-        return label;
+    public String getLabelName() {
+        return labelName;
     }
 
-    public void setLabel(Label label) {
-        this.label = label;
+    public void setLabel(String label) {
+        this.labelName = label;
     }
 
     public String getQuantity() {
@@ -181,7 +181,7 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
     }
-    
+
     static List<Item> findByItemListId(long id) {
         return find(Item.class, "ITEM_LIST = ?", String.valueOf(id));
     }

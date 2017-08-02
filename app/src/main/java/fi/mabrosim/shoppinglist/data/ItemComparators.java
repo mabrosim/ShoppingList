@@ -49,9 +49,9 @@ public final class ItemComparators {
     }
 
     private static int byLabel(Item lhs, Item rhs) {
-        long lhsId = lhs.getLabel().getId();
-        long rhsId = rhs.getLabel().getId();
-        return lhsId == rhsId ? byName(lhs, rhs) : compare(lhsId, rhsId);
+        String lhsName = lhs.getLabelName();
+        String rhsName = rhs.getLabelName();
+        return lhsName.equals(rhsName) ? byName(lhs, rhs) : lhsName.compareTo(rhsName);
     }
 
     private static int compare(long x, long y) {

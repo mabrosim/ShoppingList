@@ -1,7 +1,6 @@
 package fi.mabrosim.shoppinglist.ui.editors;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,13 +10,11 @@ import java.util.Collections;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.records.Label;
-import fi.mabrosim.shoppinglist.tasks.DeleteLabelTask;
+import fi.mabrosim.shoppinglist.tasks.RenameLabelTask;
 import fi.mabrosim.shoppinglist.utils.Actions;
 
 public class EditLabelActivity extends Activity implements ButtonClicksListener {
-
-    Label mLabel;
+    private String   mLabelName;
     private EditText mEditName;
 
     private static final int[]         EDIT_TEXT_IDS = {R.id.editName};
@@ -28,10 +25,8 @@ public class EditLabelActivity extends Activity implements ButtonClicksListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_label);
 
-        if (mLabel == null) {
-            Intent intent = getIntent();
-            mLabel = Label.findById(Label.class, intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L));
-        }
+        mLabelName = getIntent().getStringExtra(Actions.EXTRA_LABEL_NAME);
+
         mEditName = (EditText) findViewById(R.id.editName);
 
         for (int i = 0; i < EDIT_TEXT_IDS.length; i++) {
@@ -46,7 +41,7 @@ public class EditLabelActivity extends Activity implements ButtonClicksListener 
     @Override
     protected void onResume() {
         super.onResume();
-        mEditName.setText(mLabel.getName());
+        mEditName.setText(mLabelName);
     }
 
     @Override
@@ -80,13 +75,8 @@ public class EditLabelActivity extends Activity implements ButtonClicksListener 
     @Override
     public void onOkButtonClick(View view) {
         String name = mEditName.getText().toString();
-        if (name.isEmpty()) {
-            if (mLabel.getId() != null) {
-                new DeleteLabelTask(this).execute(mLabel.getId());
-            }
-        } else {
-            mLabel.setName(name);
-            mLabel.saveAndBroadcast(getApplicationContext());
+        if (!name.equals(mLabelName)) {
+            new RenameLabelTask(this).execute(mLabelName, name);
         }
         finish();
     }

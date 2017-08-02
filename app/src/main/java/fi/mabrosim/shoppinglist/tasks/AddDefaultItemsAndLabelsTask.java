@@ -10,7 +10,7 @@ import java.util.List;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.records.Label;
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Prefs;
 
 public class AddDefaultItemsAndLabelsTask extends AsyncTask<Void, Void, Void> {
@@ -39,11 +39,11 @@ public class AddDefaultItemsAndLabelsTask extends AsyncTask<Void, Void, Void> {
             itemList.save();
 
             for (Label label : labels) {
-                label.save();
                 List<Item> items = label.getItems();
 
                 for (Item item : items) {
                     item.setItemList(itemList);
+                    item.setLabel(label.getName());
                     item.save();
                 }
             }

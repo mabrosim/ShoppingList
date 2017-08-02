@@ -3,13 +3,12 @@ package fi.mabrosim.shoppinglist.tasks;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
 import fi.mabrosim.shoppinglist.BuildConfig;
 import fi.mabrosim.shoppinglist.ui.MainActivity;
-import fi.mabrosim.shoppinglist.utils.FileUtils;
 import fi.mabrosim.shoppinglist.utils.Dog;
+import fi.mabrosim.shoppinglist.utils.FileUtils;
 
 public class ImportItemsTaskFactory {
     private static final String TAG = "ImportItemsTaskFactory";
@@ -20,7 +19,7 @@ public class ImportItemsTaskFactory {
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Log.d(TAG, "createAndExecute: " + mimeType + " " + fileExt);
+
         if (BuildConfig.DEBUG && FileUtils.JSON_MIME_TYPE.equals(mimeType) && FileUtils.JSON_FILENAME_EXT.equals(fileExt)) {
             Dog.d(TAG, "onActivityResult: import from JSON");
             new ImportItemsFromJsonTask(context, intent).execute(uri);

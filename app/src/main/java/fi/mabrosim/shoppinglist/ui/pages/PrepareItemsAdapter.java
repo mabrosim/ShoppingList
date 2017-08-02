@@ -17,11 +17,10 @@ import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.ItemComparators;
 import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
-import fi.mabrosim.shoppinglist.data.records.Label;
 import fi.mabrosim.shoppinglist.utils.Dog;
 
 class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordListener {
-    private final List<Label>      mLabels       = new ArrayList<>();
+    private final List<String>     mLabels       = new ArrayList<>();
     private final List<List<Item>> mLabeledItems = new ArrayList<>();
 
     @Override
@@ -35,7 +34,7 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
     }
 
     @Override
-    public Label getGroup(int groupPosition) {
+    public String getGroup(int groupPosition) {
         return mLabels.get(groupPosition);
     }
 
@@ -46,7 +45,7 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
 
     @Override
     public long getGroupId(int groupPosition) {
-        return mLabels.get(groupPosition).getId();
+        return groupPosition;
     }
 
     @Override
@@ -66,7 +65,7 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
             convertView = inflater.inflate(R.layout.list_item_label, parent, false);
         }
         TextView label = (TextView) convertView.findViewById(R.id.labelTextView);
-        label.setText(mLabels.get(groupPosition).getName());
+        label.setText(mLabels.get(groupPosition));
 
         TextView sum = (TextView) convertView.findViewById(R.id.itemCount);
         sum.setText(String.valueOf(mLabeledItems.get(groupPosition).size()));
@@ -139,21 +138,6 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
             case ITEM: {
                 Item item = Item.findById(Item.class, id);
                 if (item != null) {
-                    long labelId = item.getLabel().getId();
-                    for (Label l : mLabels) {
-                        if (l.getId() == labelId) {
-                            mLabeledItems.get(mLabels.indexOf(l)).add(item);
-                        }
-                    }
-                    notifyDataSetChanged();
-                }
-                break;
-            }
-            case LABEL: {
-                Label label = Label.findById(Label.class, id);
-                if (label != null) {
-                    mLabels.add(label);
-                    mLabeledItems.add(new ArrayList<Item>());
                     notifyDataSetChanged();
                 }
                 break;
@@ -181,10 +165,6 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
                 }
                 break;
             }
-            case LABEL: {
-                notifyDataSetInvalidated();
-                break;
-            }
             case ITEM_LIST: {
                 notifyDataSetInvalidated();
                 break;
@@ -196,18 +176,23 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
 
         @Override
         protected Void doInBackground(String... params) {
-            final List<Label> labelList = Label.listAll(Label.class);
             final List<Item> itemList = Item.listAll(Item.class);
             Collections.sort(itemList, new ItemComparators.ByName());
 
             mLabels.clear();
-            mLabels.addAll(labelList);
+            for (Item item : itemList) {
+                String label = item.getLabelName();
+                if (!mLabels.contains(label)) {
+                    mLabels.add(label);
+                }
+            }
             mLabeledItems.clear();
-            for (Label l : mLabels) {
+
+            for (String l : mLabels) {
                 List<Item> il = new ArrayList<>();
                 for (Item item : itemList) {
-                    Label itemLabel = item.getLabel();
-                    if ((itemLabel != null) && itemLabel.getId().equals(l.getId())) {
+                    String itemLabel = item.getLabelName();
+                    if ((itemLabel != null) && itemLabel.equals(l)) {
                         il.add(item);
                     }
                 }
