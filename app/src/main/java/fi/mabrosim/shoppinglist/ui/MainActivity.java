@@ -22,7 +22,6 @@ import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.tasks.ClearChoicesTask;
 import fi.mabrosim.shoppinglist.ui.editors.AddItemActivity;
-import fi.mabrosim.shoppinglist.ui.editors.AddLabelActivity;
 import fi.mabrosim.shoppinglist.ui.pages.MainViewPager;
 import fi.mabrosim.shoppinglist.ui.pages.MainViewPagerAdapter;
 import fi.mabrosim.shoppinglist.utils.Actions;
@@ -91,10 +90,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_add_item) {
             startActivity(new Intent(this, AddItemActivity.class));
-            return true;
-        }
-        if (id == R.id.action_add_label) {
-            startActivity(new Intent(this, AddLabelActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

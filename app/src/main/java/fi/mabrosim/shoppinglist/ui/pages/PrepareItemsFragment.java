@@ -90,7 +90,6 @@ public class PrepareItemsFragment extends PageFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_item, menu);
-        inflater.inflate(R.menu.add_label, menu);
         inflater.inflate(R.menu.item_search, menu);
 
         mSearchMenuItem = menu.findItem(R.id.action_search);
@@ -154,9 +153,9 @@ public class PrepareItemsFragment extends PageFragment {
         mSearchListAdapter.onRecordDeleted(type, id);
     }
 
-    private void launchEditLabelActivity(long id) {
+    private void launchEditLabelActivity(String name) {
         Intent intent = new Intent(getActivity(), EditLabelActivity.class);
-        intent.putExtra(Actions.EXTRA_RECORD_ID, id);
+        intent.putExtra(Actions.EXTRA_LABEL_NAME, name);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
     }
@@ -170,7 +169,7 @@ public class PrepareItemsFragment extends PageFragment {
                 launchEditItemActivity(ExpandableListView.getPackedPositionChild(id));
                 return true;
             } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                launchEditLabelActivity(ExpandableListView.getPackedPositionGroup(id));
+                launchEditLabelActivity(mAdapter.getGroup(ExpandableListView.getPackedPositionGroup(id)));
                 return true;
             } else {
                 // don't consume the click

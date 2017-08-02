@@ -12,11 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
-import fi.mabrosim.shoppinglist.data.records.Label;
 
 class ImportItemsFromJsonTask extends AsyncTask<Uri, Void, Void> {
     private final Context mAppContext;
@@ -45,16 +43,9 @@ class ImportItemsFromJsonTask extends AsyncTask<Uri, Void, Void> {
             items = gson.fromJson(json, TYPE_ITEMS_JSON);
 
             // FIXME temporary solution - deleteAndBroadcast ALL first
-            Label.deleteAll(Label.class);
             Item.deleteAll(Item.class);
 
-            List<String> labelNames = new ArrayList<>();
             for (Item item : items) {
-                String name = item.getLabel().getName();
-                if (!labelNames.contains(name)) {
-                    labelNames.add(name);
-                    item.getLabel().save();
-                }
                 item.save();
             }
         }

@@ -16,7 +16,7 @@ import java.util.List;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.records.Label;
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Actions;
 import fi.mabrosim.shoppinglist.utils.CsvUtils;
 
@@ -38,7 +38,6 @@ class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
             if (is != null) {
                 // FIXME merge diff to database
                 ItemList.deleteAll(ItemList.class);
-                Label.deleteAll(Label.class);
                 Item.deleteAll(Item.class);
 
                 CSVReader reader = new CSVReader(new InputStreamReader(is, "UTF-8"));
@@ -55,11 +54,10 @@ class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
 
                 for (String[] s : transposedMatrix) {
                     Label label = new Label(s[0]);
-                    label.save();
                     for (int i = 1; i < s.length; i++) {
                         if (!s[i].isEmpty()) {
                             Item item = new Item(s[i]);
-                            item.setLabel(label);
+                            item.setLabel(label.getName());
                             item.save();
                         }
                     }

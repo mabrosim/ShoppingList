@@ -12,7 +12,6 @@ import java.util.Map;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.records.Label;
 import fi.mabrosim.shoppinglist.utils.Actions;
 import fi.mabrosim.shoppinglist.utils.Dog;
 
@@ -23,7 +22,6 @@ abstract class SugarRecordBroadcastable extends SugarRecord {
     static {
         Map<Class<? extends SugarRecord>, RecordType> m = new HashMap<>();
         m.put(Item.class, RecordType.ITEM);
-        m.put(Label.class, RecordType.LABEL);
         m.put(ItemList.class, RecordType.ITEM_LIST);
         RECORD_CLASS_TO_TYPE_MAP = Collections.unmodifiableMap(m);
     }

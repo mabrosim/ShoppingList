@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.records.Label;
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.CsvUtils;
 import fi.mabrosim.shoppinglist.utils.FileUtils;
 

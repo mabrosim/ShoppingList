@@ -12,7 +12,7 @@ import java.util.List;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.records.Label;
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Actions;
 
 class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Void> {
@@ -33,17 +33,16 @@ class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Void> {
             if (is != null) {
                 // FIXME merge diff to database
                 ItemList.deleteAll(ItemList.class);
-                Label.deleteAll(Label.class);
                 Item.deleteAll(Item.class);
 
                 ItemList itemList = new ItemList(is);
                 List<Label> labels = itemList.getLabels();
                 itemList.save();
                 for (Label label : labels) {
-                    label.save();
                     List<Item> items = label.getItems();
                     for (Item item : items) {
                         item.setItemList(itemList);
+                        item.setLabel(label.getName());
                         item.save();
                     }
                 }
