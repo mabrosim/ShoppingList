@@ -1,4 +1,4 @@
-# ShoppingList
+# ShoppingList   [![CircleCI](https://circleci.com/gh/mabrosim/ShoppingList.svg?style=svg)](https://circleci.com/gh/mabrosim/ShoppingList)
 
 Smart Shopping List application with export and share functionality.
 
@@ -32,7 +32,7 @@ Google cloud for backup & restored to be implemented
 Debug action items to preview the exported data in a popup viewer.
 
 
-##The app is availaible on Google Play:
+#### The app is availaible on Google Play:
 
 <a href="https://play.google.com/store/apps/details?id=fi.mabrosim.shoppinglist" target="top">
    <img alt="Get it on Google Play"
