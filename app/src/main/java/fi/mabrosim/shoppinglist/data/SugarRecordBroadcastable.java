@@ -52,7 +52,7 @@ abstract class SugarRecordBroadcastable extends SugarRecord {
     private static final String TAG = "RecordBroadcastable";
 
     private static void broadcastAction(Context context, String action, long id, RecordType type) {
-        Dog.d(TAG, "broadcast action: " + action + " id= " + id);
+        Dog.d(TAG, "broadcastAction: action = [" + action + "], id = [" + id + "], type = [" + type + "]");
         Intent intent = new Intent(action);
         intent.putExtra(Actions.EXTRA_RECORD_ID, id);
         intent.putExtra(Actions.EXTRA_RECORD_TYPE, type);

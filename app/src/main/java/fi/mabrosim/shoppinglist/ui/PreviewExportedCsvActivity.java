@@ -16,10 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.data.Label;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.CsvUtils;
-import fi.mabrosim.shoppinglist.utils.Dog;
 
 public class PreviewExportedCsvActivity extends AppCompatActivity {
     private TextView mPreviewTv;
@@ -43,41 +42,33 @@ public class PreviewExportedCsvActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String result = "Error";
-            ItemList items;
-            List<ItemList> itemLists = ItemList.listAll(ItemList.class);
+            ItemList itemList = ItemList.findCurrentList();
 
-            Dog.d(TAG, "doInBackground: itemLists " + itemLists + " " + itemLists.isEmpty());
-            if (itemLists.isEmpty()) {
-                items = new ItemList();
-            } else {
-                // TODO item list name should be taken from task params
-                items = itemLists.get(0);
-            }
-
-            // XXX toPbObject fetches labels from db
-            ByteArrayInputStream in = new ByteArrayInputStream(items.toPbObject().toByteArray());
-            try {
-                items = new ItemList(in);
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            List<String[]> labeledItemNames = new ArrayList<>();
-            for (Label l : items.getLabels()) {
-                labeledItemNames.add(l.getItemNamesWithLabel());
-            }
-
-            StringWriter sWriter = new StringWriter();
-            try {
-                CSVWriter writer = new CSVWriter(sWriter, ',');
-                for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
-                    writer.writeNext(a);
+            if (itemList != null) {
+                ByteArrayInputStream in = new ByteArrayInputStream(itemList.toPbObject().toByteArray());
+                try {
+                    itemList = new ItemList(in);
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                writer.close();
-                result = sWriter.toString();
-            } catch (IOException e) {
-                //error
+
+                List<String[]> labeledItemNames = new ArrayList<>();
+                for (Label l : itemList.getLabels()) {
+                    labeledItemNames.add(l.getItemNamesWithLabel());
+                }
+
+                StringWriter sWriter = new StringWriter();
+                try {
+                    CSVWriter writer = new CSVWriter(sWriter, ',');
+                    for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
+                        writer.writeNext(a);
+                    }
+                    writer.close();
+                    result = sWriter.toString();
+                } catch (IOException e) {
+                    //error
+                }
             }
             return result;
         }

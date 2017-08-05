@@ -14,14 +14,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.ItemComparators;
 import fi.mabrosim.shoppinglist.data.RecordType;
+import fi.mabrosim.shoppinglist.data.records.Item;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.Dog;
 import fi.mabrosim.shoppinglist.utils.TimeUtils;
 
-class AtTheShopAdapter extends SugarRecordAdapter<Item> {
-    private final static long TIME_TO_KEEP_UNCHECKED_ITEMS_MS = TimeUnit.MINUTES.toMillis(15);
+final class AtTheShopAdapter extends SugarRecordAdapter<Item> {
+    private static final String TAG                             = "AtTheShopAdapter";
+    private static final long   TIME_TO_KEEP_UNCHECKED_ITEMS_MS = TimeUnit.MINUTES.toMillis(15);
 
     AtTheShopAdapter() {
         super(Item.class);
@@ -59,17 +61,39 @@ class AtTheShopAdapter extends SugarRecordAdapter<Item> {
         return convertView;
     }
 
+
     @Override
     protected void addItems(List<Item> items, String filter) {
         long noLaterThan = TimeUtils.DateAsLong(new Date(System.currentTimeMillis() - TIME_TO_KEEP_UNCHECKED_ITEMS_MS));
-        items.addAll(Item.find(Item.class, "CHECKED=1 OR UNCHECKED_TIME>=?", String.valueOf(noLaterThan)));
+        ItemList itemList = ItemList.findCurrentList();
+        if (itemList != null) {
+            items.addAll(Item.find(Item.class, "ITEM_LIST=? AND (CHECKED=1 OR UNCHECKED_TIME>=?)", String.valueOf(itemList.getId()), String.valueOf(noLaterThan)));
+        } else {
+            items.addAll(Item.find(Item.class, "CHECKED=1 OR UNCHECKED_TIME>=?", String.valueOf(noLaterThan)));
+        }
         Collections.sort(items, new ItemComparators.ByChecked());
     }
 
     @Override
     public void onRecordUpdated(RecordType type, long id) {
+        switch (type) {
+            default:
+            case ITEM: {
+                onItemUpdated(id);
+                break;
+            }
+            case LABEL: {
+                break;
+            }
+            case ITEM_LIST: {
+                break;
+            }
+        }
+    }
+
+    private void onItemUpdated(long id) {
+        Dog.d(TAG, "onItemUpdated: " + id);
         Item item = Item.findById(Item.class, id);
-        Dog.d(getClass().getSimpleName(), "onRecordUpdated: " + id + " " + item);
         if (item != null) {
             int index = -1;
             for (Item i : mItems) {
@@ -90,7 +114,7 @@ class AtTheShopAdapter extends SugarRecordAdapter<Item> {
     @Override
     public void onRecordAdded(RecordType type, long id) {
         Item item = Item.findById(Item.class, id);
-        Dog.d(getClass().getSimpleName(), "onRecordAdded: " + id + " " + item);
+        Dog.d(TAG, "onRecordAdded: " + id + " " + item);
         if (item != null && item.isChecked()) {
             mItems.add(item);
             Collections.sort(mItems, new ItemComparators.ByChecked());

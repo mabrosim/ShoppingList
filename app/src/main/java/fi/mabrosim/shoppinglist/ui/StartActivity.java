@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import fi.mabrosim.shoppinglist.BuildConfig;
 import fi.mabrosim.shoppinglist.tasks.AddDefaultItemsAndLabelsTask;
 import fi.mabrosim.shoppinglist.utils.Prefs;
 
@@ -15,7 +16,7 @@ public class StartActivity extends Activity {
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (!Prefs.isReady(this)) {
+        if (BuildConfig.DEBUG && !Prefs.isReady(this)) {
             new AddDefaultItemsAndLabelsTask(getApplicationContext(), intent).execute();
         } else {
             startActivity(intent);

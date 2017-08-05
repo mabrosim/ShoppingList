@@ -33,7 +33,7 @@ public class MainViewPager extends ViewPager {
         mIntentFilter.addAction(Actions.ACTION_RECORDS_UPDATED);
         mIntentFilter.addAction(Actions.ACTION_RECORD_ADDED);
         mIntentFilter.addAction(Actions.ACTION_RECORD_DELETED);
-        mIntentFilter.addAction(Actions.ACTION_IMPORT_COMPLETED);
+        mIntentFilter.addAction(Actions.ACTION_ALL_DELETED);
     }
 
     @Override

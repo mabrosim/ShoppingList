@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.tasks.ShareProtoFileTask;
+import fi.mabrosim.shoppinglist.ui.editors.AddItemListActivity;
 
 class MainActivityNavigationListener implements NavigationView.OnNavigationItemSelectedListener {
     private final MainActivity mActivity;
@@ -26,9 +27,6 @@ class MainActivityNavigationListener implements NavigationView.OnNavigationItemS
             case R.id.nav_prepare_list:
                 mActivity.showAllItems();
                 break;
-            case R.id.nav_shopping:
-                mActivity.showCheckedItems();
-                break;
             case R.id.nav_share_pb:
                 new ShareProtoFileTask(mActivity).execute();
                 break;
@@ -42,6 +40,14 @@ class MainActivityNavigationListener implements NavigationView.OnNavigationItemS
                 Intent intent = new Intent(mActivity, SettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mActivity.startActivity(intent);
+                break;
+            }
+            case R.id.nav_add_list: {
+                mActivity.startActivity(new Intent(mActivity, AddItemListActivity.class));
+                break;
+            }
+            case R.id.nav_list_name: {
+                mActivity.setActiveList((String) item.getTitle());
                 break;
             }
             default:

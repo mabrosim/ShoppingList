@@ -9,22 +9,21 @@ import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.utils.Actions;
 
 public class RenameLabelTask extends BroadcastOnCompleteAsyncTask<String> {
+    private final String mLabelName;
 
-    public RenameLabelTask(Context context) {
-        super(context, new Intent());
-        mIntent.setAction(Actions.ACTION_RECORDS_UPDATED);
+    public RenameLabelTask(Context context, String labelName) {
+        super(context);
+        mLabelName = labelName;
     }
 
     @Override
-    protected Void doInBackground(String... params) {
-        String oldName = params[0];
-        String newName = params[1];
+    protected Intent doInBackground(String... params) {
+        List<Item> items = Item.findById(Item.class, params);
 
-        List<Item> items = Item.find(Item.class, "LABEL_NAME LIKE ?", String.valueOf(oldName));
         for (Item i : items) {
-            i.setLabel(newName);
+            i.setLabel(mLabelName);
             i.save();
         }
-        return null;
+        return new Intent(Actions.ACTION_RECORDS_UPDATED);
     }
 }

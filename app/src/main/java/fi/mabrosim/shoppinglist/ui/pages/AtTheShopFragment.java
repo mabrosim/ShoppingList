@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,8 +15,6 @@ import android.widget.TextView;
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
-import fi.mabrosim.shoppinglist.tasks.DoTheMagicTask;
-import fi.mabrosim.shoppinglist.utils.Dog;
 
 public class AtTheShopFragment extends PageFragment {
     private static final String TAG = "AtTheShopFragment";
@@ -40,17 +37,9 @@ public class AtTheShopFragment extends PageFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.magic_cat, menu);
+        inflater.inflate(R.menu.edit_list_name, menu);
+        inflater.inflate(R.menu.delete_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Dog.d(TAG, "onOptionsItemSelected: ");
-        if (item.getItemId() == R.id.action_magic) {
-            new DoTheMagicTask(getContext()).execute();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -82,7 +71,9 @@ public class AtTheShopFragment extends PageFragment {
 
     @Override
     void resetData() {
-        setListShown(false);
+        if (isVisible()) {
+            setListShown(false);
+        }
         mAdapter.notifyDataSetInvalidated();
     }
 

@@ -23,20 +23,20 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     private static final Map<FragmentType, Class<? extends PageFragment>> TYPE_TO_FRAGMENT_CLASS_MAP;
 
     private enum FragmentType {
-        PREPARE,
-        AT_THE_SHOP
+        AT_THE_SHOP,
+        PREPARE
     }
 
     static {
         Map<FragmentType, Class<? extends PageFragment>> m = new HashMap<>();
-        m.put(FragmentType.PREPARE, PrepareItemsFragment.class);
         m.put(FragmentType.AT_THE_SHOP, AtTheShopFragment.class);
+        m.put(FragmentType.PREPARE, PrepareItemsFragment.class);
         TYPE_TO_FRAGMENT_CLASS_MAP = Collections.unmodifiableMap(m);
     }
 
     public MainViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        mFragmentTypes = Arrays.asList(FragmentType.PREPARE, FragmentType.AT_THE_SHOP);
+        mFragmentTypes = Arrays.asList(FragmentType.AT_THE_SHOP, FragmentType.PREPARE);
     }
 
     @Override
@@ -62,8 +62,12 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    PageFragment getRegisteredFragment(int position) {
+    public PageFragment getRegisteredFragment(int position) {
         return mRegisteredFragments.get(position);
+    }
+
+    public void resetRegisteredFragment(int position) {
+        mRegisteredFragments.valueAt(position).resetData();
     }
 
     public void resetRegisteredFragments() {

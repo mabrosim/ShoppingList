@@ -74,6 +74,16 @@
             android:theme="@style/EditItemActivityTheme">
         </activity>
         <activity
+            android:name=".ui.editors.EditItemListActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
+            android:name=".ui.editors.AddItemListActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/EditItemActivityTheme">
+        </activity>
+        <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar">
@@ -122,7 +132,7 @@
             android:value="items.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="8"/>
+            android:value="9"/>
         <meta-data
             android:name="QUERY_LOG"
             android:value="false"/>

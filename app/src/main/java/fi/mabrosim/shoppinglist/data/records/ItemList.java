@@ -13,7 +13,8 @@ import fi.mabrosim.shoppinglist.protobuf.Protos.PbItemList;
 import fi.mabrosim.shoppinglist.protobuf.Protos.PbLabel;
 
 public class ItemList extends ProtoEntity<PbItemList> {
-    private String name = "List";
+    private String  name      = "";
+    private boolean isCurrent = false;
 
     @Ignore
     private final List<Label> mLabels = new ArrayList<>();
@@ -28,15 +29,10 @@ public class ItemList extends ProtoEntity<PbItemList> {
     public ItemList(PbItemList pbItemList) {
         this();
         name = pbItemList.getName();
-        if (name.isEmpty()) {
-            name = "List";
-        }
         for (PbLabel pbLabel : pbItemList.getLabelList()) {
             mLabels.add(new Label(pbLabel));
         }
     }
-
-    private static final String TAG = "ItemList";
 
     @Override
     public PbItemList toPbObject() {
@@ -81,5 +77,33 @@ public class ItemList extends ProtoEntity<PbItemList> {
 
     public List<Label> getLabels() {
         return mLabels;
+    }
+
+    public static ItemList findCurrentList() {
+        List<ItemList> lists = ItemList.find(ItemList.class, "IS_CURRENT = ?", String.valueOf(1));
+
+        if (lists.size() > 0) {
+            return lists.get(0);
+        } else {
+            return ItemList.first(ItemList.class);
+        }
+    }
+
+    public void setCurrent(boolean current) {
+        this.isCurrent = current;
+    }
+
+    public boolean isCurrent() {
+        return this.isCurrent;
+    }
+
+    public List<Item> findItems() {
+        return Item.find(Item.class, "ITEM_LIST=?", String.valueOf(getId()));
+    }
+
+    @Override
+    public boolean delete() {
+        Item.deleteAll(Item.class, "ITEM_LIST=?", String.valueOf(getId()));
+        return super.delete();
     }
 }

@@ -7,6 +7,7 @@
     <string name="name">Наименование</string>
     <string name="quantity">Количество</string>
     <string name="label">Ярлык</string>
+    <string name="list_name">Список</string>
     <string name="prepare_list">Составить список</string>
     <string name="at_the_shop">Список покупок</string>
     <string name="edit_items">Редактировать</string>
@@ -21,6 +22,10 @@
     <string name="please_wait">Пожалуйста, подождите</string>
     <string name="google_cloud">Google cloud</string>
     <string name="magic">Вжух, и список готов!</string>
+    <string name="action_edit_list_name">Переименовать список</string>
+    <string name="menu_new_list">Новый список</string>
+    <string name="delete_list">Удалить список</string>
+    <string name="error_name_exists">Пожалуйста, попробуйте другое имя</string>
 
     <string name="debug_show_exported_data">Debug: Show exported proto data</string>
     <string name="debug_show_exported_data_csv">Debug: Show exported csv data</string>

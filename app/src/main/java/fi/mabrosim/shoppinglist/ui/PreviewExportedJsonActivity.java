@@ -10,12 +10,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.records.Item;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 
 public class PreviewExportedJsonActivity extends AppCompatActivity {
     private TextView mPreviewTv;
@@ -38,26 +34,13 @@ public class PreviewExportedJsonActivity extends AppCompatActivity {
     private class getItemsFromDb extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            List<Item> items = new ArrayList<>();
-            Iterator<Item> itemIterator = Item.findAll(Item.class);
-            while (itemIterator.hasNext()) {
-                items.add(itemIterator.next());
+            ItemList itemList = ItemList.findCurrentList();
+
+            if (itemList != null) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                return gson.toJson(itemList.findItems());
             }
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(items);
-/*            File file = FileUtils.JSON.newFile(getApplicationContext());
-            FileOutputStream outputStream;
-
-            try {
-                outputStream = new FileOutputStream(file);
-                outputStream.write(json.getBytes());
-
-                outputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-
-            return json;
+            return "";
         }
 
         @Override

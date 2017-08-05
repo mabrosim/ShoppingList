@@ -21,7 +21,7 @@ public enum FileUtils {
     public static final  String CSV_FILENAME_EXT   = "csv";
     public static final  String PROTO_MIME_TYPE    = "application/octet-stream";
     public static final  String JSON_MIME_TYPE     = "application/json";
-    public static final  String CSV_MIME_TYPE     = "text/csv";
+    public static final  String CSV_MIME_TYPE      = "text/csv";
     private static final String FILENAME_PREFIX    = "items-";
     private static final String TIMESTAMP_FORMAT   = "yyyyMMdd-HHmm";
 
@@ -29,25 +29,18 @@ public enum FileUtils {
         return new File(context.getFilesDir(), currentTimeToFileName());
     }
 
-    private String currentTimeToFileName() {
-        SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_FORMAT, Locale.getDefault());
-
-        switch (this) {
-            case JSON:
-                return FILENAME_PREFIX + sdf.format(new Date()) + "." + JSON_FILENAME_EXT;
-            case PROTO:
-                return FILENAME_PREFIX + sdf.format(new Date()) + "." + PROTO_FILENAME_EXT;
-            case CSV:
-                return FILENAME_PREFIX + sdf.format(new Date()) + "." + CSV_FILENAME_EXT;
-            default:
-                return "";
-        }
+    public static String getBase(String fileName) {
+        return fileName.substring(0, fileName.lastIndexOf("."));
     }
 
-    public static String getFileName(Context context, Uri uri) {
+    public static String getExt(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+    }
+
+    public static String getFileName(ContentResolver contentResolver, Uri uri) {
         String result = null;
         if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            Cursor cursor = contentResolver.query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
@@ -68,7 +61,18 @@ public enum FileUtils {
         return result;
     }
 
-    public static String getFileExt(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+    public String currentTimeToFileName() {
+        SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_FORMAT, Locale.getDefault());
+
+        switch (this) {
+            case JSON:
+                return FILENAME_PREFIX + sdf.format(new Date()) + "." + JSON_FILENAME_EXT;
+            case PROTO:
+                return FILENAME_PREFIX + sdf.format(new Date()) + "." + PROTO_FILENAME_EXT;
+            case CSV:
+                return FILENAME_PREFIX + sdf.format(new Date()) + "." + CSV_FILENAME_EXT;
+            default:
+                return "";
+        }
     }
 }

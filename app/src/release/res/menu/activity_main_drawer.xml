@@ -11,7 +11,12 @@
         <item
             android:id="@+id/nav_shopping"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
-            android:title="@string/at_the_shop"/>
+            android:title="@string/at_the_shop"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_add_list"
+            android:icon="@drawable/ic_add_shopping_cart_black_24dp"
+            android:title="@string/menu_new_list"/>
         <item
             android:id="@+id/nav_all_items"
             android:icon="@drawable/ic_mode_edit_black_24dp"

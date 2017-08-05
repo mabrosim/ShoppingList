@@ -27,44 +27,40 @@ class ExportItemsToCsvFileTask extends AsyncTask<Void, Void, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-        ItemList items;
-        List<ItemList> itemLists = ItemList.listAll(ItemList.class);
-        if (itemLists.isEmpty()) {
-            items = new ItemList();
-        } else {
-            // TODO item list name should be taken from task params
-            items = itemLists.get(0);
-        }
+        ItemList itemList = ItemList.findCurrentList();
 
-        // XXX toPbObject fetches labels from db
-        ByteArrayInputStream in = new ByteArrayInputStream(items.toPbObject().toByteArray());
-        try {
-            items = new ItemList(in);
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<String[]> labeledItemNames = new ArrayList<>();
-        for (Label l : items.getLabels()) {
-            labeledItemNames.add(l.getItemNamesWithLabel());
-        }
-
-        File file = FileUtils.CSV.newFile(mAppContext);
-        try {
-            CSVWriter writer = new CSVWriter(new FileWriter(file), ',');
-            for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
-                writer.writeNext(a);
+        if (itemList != null) {
+            ByteArrayInputStream in = new ByteArrayInputStream(itemList.toPbObject().toByteArray());
+            try {
+                itemList = new ItemList(in);
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            writer.close();
-        } catch (IOException e) {
-            //error
-        }
+            List<String[]> labeledItemNames = new ArrayList<>();
+            for (Label l : itemList.getLabels()) {
+                labeledItemNames.add(l.getItemNamesWithLabel());
+            }
 
-        return file;
+            File file = FileUtils.CSV.newFile(mAppContext);
+            try {
+                CSVWriter writer = new CSVWriter(new FileWriter(file), ',');
+                for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
+                    writer.writeNext(a);
+                }
+                writer.close();
+            } catch (IOException e) {
+                //error
+            }
+            return file;
+        }
+        return null;
     }
 
     @Override
     protected void onPostExecute(File file) {
-        Toast.makeText(mAppContext, "Items exported to CSV file", Toast.LENGTH_SHORT).show();
+        if (file != null) {
+            Toast.makeText(mAppContext, "Items exported to CSV file", Toast.LENGTH_SHORT).show();
+        }
     }
 }

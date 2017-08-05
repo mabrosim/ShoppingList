@@ -10,34 +10,53 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import fi.mabrosim.shoppinglist.data.Label;
+import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Actions;
+import fi.mabrosim.shoppinglist.utils.FileUtils;
 
-class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Void> {
+class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Long> {
+
+    private static final String TAG = "ImportItemsFromPbTask";
+
     private final Context mAppContext;
     private final Intent  mIntent;
+    private final String  mFileName;
 
-    ImportItemsFromPbTask(Context context, Intent intent) {
+    ImportItemsFromPbTask(Context context, Intent intent, String fileName) {
         mAppContext = context.getApplicationContext();
         mIntent = intent;
+        mFileName = fileName;
     }
 
     @Override
-    protected Void doInBackground(Uri... params) {
+    protected Long doInBackground(Uri... params) {
         Uri uri = params[0];
         InputStream is;
+        long listId = 0L;
+
         try {
             is = mAppContext.getContentResolver().openInputStream(uri);
             if (is != null) {
-                // FIXME merge diff to database
-                ItemList.deleteAll(ItemList.class);
-                Item.deleteAll(Item.class);
-
                 ItemList itemList = new ItemList(is);
+                is.close();
+
+                if (itemList.getName().isEmpty() || itemList.getName().equals("List")) {
+                    itemList.setName(FileUtils.getBase(mFileName));
+                }
+
+                List<ItemList> localLists = ItemList.listAll(ItemList.class);
+                for (ItemList il : localLists) {
+                    if (il.getName().equals(itemList.getName())) {
+                        ItemList.delete(il);
+                    }
+                }
+
+                itemList.setCurrent(true);
+                listId = itemList.save();
                 List<Label> labels = itemList.getLabels();
-                itemList.save();
                 for (Label label : labels) {
                     List<Item> items = label.getItems();
                     for (Item item : items) {
@@ -46,19 +65,20 @@ class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Void> {
                         item.save();
                     }
                 }
-                is.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return listId;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Long aLong) {
         mAppContext.startActivity(mIntent);
-        Intent intent = new Intent(Actions.ACTION_IMPORT_COMPLETED);
+        Intent intent = new Intent(Actions.ACTION_RECORD_ADDED);
+        intent.putExtra(Actions.EXTRA_RECORD_ID, aLong);
+        intent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM_LIST);
         LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(intent);
     }
 }

@@ -138,24 +138,31 @@ public class PrepareItemsFragment extends PageFragment {
     @Override
     public void onRecordUpdated(RecordType type, long id) {
         mAdapter.onRecordUpdated(type, id);
-        mSearchListAdapter.onRecordUpdated(type, id);
+        if (View.VISIBLE == mSearchListBg.getVisibility()) {
+            mSearchListAdapter.onRecordUpdated(type, id);
+        }
     }
 
     @Override
     public void onRecordAdded(RecordType type, long id) {
         mAdapter.onRecordAdded(type, id);
-        mSearchListAdapter.onRecordAdded(type, id);
+        if (View.VISIBLE == mSearchListBg.getVisibility()) {
+            mSearchListAdapter.onRecordAdded(type, id);
+        }
     }
 
     @Override
     public void onRecordDeleted(RecordType type, long id) {
         mAdapter.onRecordDeleted(type, id);
-        mSearchListAdapter.onRecordDeleted(type, id);
+        if (View.VISIBLE == mSearchListBg.getVisibility()) {
+            mSearchListAdapter.onRecordDeleted(type, id);
+        }
     }
 
-    private void launchEditLabelActivity(String name) {
+    private void launchEditLabelActivity(String name, String[] ids) {
         Intent intent = new Intent(getActivity(), EditLabelActivity.class);
         intent.putExtra(Actions.EXTRA_LABEL_NAME, name);
+        intent.putExtra(Actions.EXTRA_RECORD_IDS, ids);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
     }
@@ -169,7 +176,8 @@ public class PrepareItemsFragment extends PageFragment {
                 launchEditItemActivity(ExpandableListView.getPackedPositionChild(id));
                 return true;
             } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                launchEditLabelActivity(mAdapter.getGroup(ExpandableListView.getPackedPositionGroup(id)));
+                int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+                launchEditLabelActivity(mAdapter.getGroup(groupPosition), mAdapter.getChildrenIds(groupPosition));
                 return true;
             } else {
                 // don't consume the click

@@ -5,19 +5,18 @@ import android.content.Intent;
 
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
+import fi.mabrosim.shoppinglist.utils.Actions;
 
 public class DeleteAllTask extends BroadcastOnCompleteAsyncTask<Void> {
 
-    public DeleteAllTask(Context context, Intent intent) {
-        super(context, intent);
+    public DeleteAllTask(Context context) {
+        super(context);
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-        //mAppContext.deleteDatabase("items.db");
+    protected Intent doInBackground(Void... params) {
         Item.deleteAll(Item.class);
         ItemList.deleteAll(ItemList.class);
-
-        return null;
+        return new Intent(Actions.ACTION_ALL_DELETED);
     }
 }
