@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/nav_header_height"
-              android:background="@drawable/side_nav_bar"
-              android:gravity="bottom"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_header_height"
+                android:background="@drawable/side_nav_bar"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingEnd="6dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="6dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:id="@+id/listName"
+        android:id="@+id/nav_header_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:maxLines="1"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-</LinearLayout>
+</RelativeLayout>
+

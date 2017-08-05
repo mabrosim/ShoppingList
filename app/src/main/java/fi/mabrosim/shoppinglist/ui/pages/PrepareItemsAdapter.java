@@ -11,17 +11,22 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.ItemComparators;
 import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.Dog;
 
 class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordListener {
+    private static final String TAG = "PrepareItemsAdapter";
+
     private final List<String>     mLabels       = new ArrayList<>();
     private final List<List<Item>> mLabeledItems = new ArrayList<>();
+
 
     @Override
     public int getGroupCount() {
@@ -100,8 +105,6 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         return true;
     }
 
-    private static final String TAG = "PrepareItemsAdapter";
-
     @Override
     public void notifyDataSetInvalidated() {
         Dog.d(TAG, "notifyDataSetInvalidated: ");
@@ -114,8 +117,7 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         switch (type) {
             default:
             case ITEM: {
-                // TODO improve performance by updating only changed item
-                notifyDataSetInvalidated();
+                onItemUpdated(id);
                 break;
             }
             case LABEL: {
@@ -155,13 +157,23 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         switch (type) {
             default:
             case ITEM: {
+                boolean isDataSetChanged = false;
+
                 for (List<Item> l : mLabeledItems) {
-                    for (Item i : l) {
-                        if (i.getId() == id) {
-                            l.remove(i);
-                            notifyDataSetChanged();
+                    Iterator<Item> iterator = l.iterator();
+                    while (iterator.hasNext()) {
+                        if (iterator.next().getId() == id) {
+                            iterator.remove();
+                            isDataSetChanged = true;
+                            break;
                         }
                     }
+                    if (isDataSetChanged) {
+                        break;
+                    }
+                }
+                if (isDataSetChanged) {
+                    notifyDataSetChanged();
                 }
                 break;
             }
@@ -172,11 +184,51 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         }
     }
 
+    String[] getChildrenIds(int groupPosition) {
+        final List<Item> groupItems = mLabeledItems.get(groupPosition);
+        final int groupSize = groupItems.size();
+        String[] arr = new String[groupSize];
+
+        for (int i = 0; i < groupSize; i++) {
+            arr[i] = String.valueOf(groupItems.get(i).getId());
+        }
+        return arr;
+    }
+
+    private void onItemUpdated(long id) {
+        Item item = Item.findById(Item.class, id);
+        if (item != null) {
+            for (List<Item> items : mLabeledItems) {
+                int index = -1;
+                for (Item i : items) {
+                    if (id == i.getId()) {
+                        index = items.indexOf(i);
+                        if (i.getLabelName().equals(item.getLabelName())) {
+                            items.set(index, item);
+                            notifyDataSetChanged();
+                        } else {
+                            notifyDataSetInvalidated();
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     private class GetFromDb extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
-            final List<Item> itemList = Item.listAll(Item.class);
+            final List<Item> itemList = new ArrayList<>();
+
+            ItemList currentList = ItemList.findCurrentList();
+            if (currentList != null) {
+                itemList.addAll(Item.findByItemListId(currentList.getId()));
+            } else {
+                itemList.addAll(Item.listAll(Item.class));
+            }
+
             Collections.sort(itemList, new ItemComparators.ByName());
 
             mLabels.clear();
@@ -186,13 +238,13 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
                     mLabels.add(label);
                 }
             }
-            mLabeledItems.clear();
+            Collections.sort(mLabels);
 
+            mLabeledItems.clear();
             for (String l : mLabels) {
                 List<Item> il = new ArrayList<>();
                 for (Item item : itemList) {
-                    String itemLabel = item.getLabelName();
-                    if ((itemLabel != null) && itemLabel.equals(l)) {
+                    if (l.equals(item.getLabelName())) {
                         il.add(item);
                     }
                 }

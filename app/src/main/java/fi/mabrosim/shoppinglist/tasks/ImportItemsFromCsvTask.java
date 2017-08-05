@@ -14,32 +14,34 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Actions;
 import fi.mabrosim.shoppinglist.utils.CsvUtils;
+import fi.mabrosim.shoppinglist.utils.FileUtils;
 
-class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
+class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Long> {
     private final Context mAppContext;
     private final Intent  mIntent;
+    private final String  mFileName;
 
-    ImportItemsFromCsvTask(Context context, Intent intent) {
+    ImportItemsFromCsvTask(Context context, Intent intent, String fileName) {
         mAppContext = context.getApplicationContext();
         mIntent = intent;
+        mFileName = fileName;
     }
 
     @Override
-    protected Void doInBackground(Uri... params) {
+    protected Long doInBackground(Uri... params) {
         Uri uri = params[0];
         InputStream is;
+        long listId = 0L;
+
         try {
             is = mAppContext.getContentResolver().openInputStream(uri);
             if (is != null) {
-                // FIXME merge diff to database
-                ItemList.deleteAll(ItemList.class);
-                Item.deleteAll(Item.class);
-
                 CSVReader reader = new CSVReader(new InputStreamReader(is, "UTF-8"));
                 List<String[]> labeledItemNames = new ArrayList<>();
 
@@ -48,9 +50,10 @@ class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
                     labeledItemNames.add(nextLine);
                 }
                 String[][] transposedMatrix = CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]));
-                // TODO save ItemList from csv file name
-/*                ItemList itemList = new ItemList();
-                itemList.setName("MyList1");*/
+
+                ItemList itemList = new ItemList();
+                itemList.setName(FileUtils.getBase(mFileName));
+                listId = itemList.save();
 
                 for (String[] s : transposedMatrix) {
                     Label label = new Label(s[0]);
@@ -58,6 +61,7 @@ class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
                         if (!s[i].isEmpty()) {
                             Item item = new Item(s[i]);
                             item.setLabel(label.getName());
+                            item.setItemList(itemList);
                             item.save();
                         }
                     }
@@ -68,13 +72,15 @@ class ImportItemsFromCsvTask extends AsyncTask<Uri, Void, Void> {
             e.printStackTrace();
         }
 
-        return null;
+        return listId;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Long aLong) {
         mAppContext.startActivity(mIntent);
-        Intent intent = new Intent(Actions.ACTION_IMPORT_COMPLETED);
+        Intent intent = new Intent(Actions.ACTION_RECORD_ADDED);
+        intent.putExtra(Actions.EXTRA_RECORD_ID, aLong);
+        intent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM_LIST);
         LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(intent);
     }
 }

@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
-import fi.mabrosim.shoppinglist.data.Label;
 import fi.mabrosim.shoppinglist.utils.Prefs;
 
 public class AddDefaultItemsAndLabelsTask extends AsyncTask<Void, Void, Void> {
@@ -29,18 +29,19 @@ public class AddDefaultItemsAndLabelsTask extends AsyncTask<Void, Void, Void> {
         try {
             InputStream is = mAppContext.getAssets().open(BPB_FILENAME);
             ItemList itemList = new ItemList(is);
-            List<Label> labels = itemList.getLabels();
-
             is.close();
 
+            if (itemList.getName().isEmpty() || itemList.getName().equals("List")) {
+                itemList.setName("default_list");
+            }
             // XXX delete all
             mAppContext.deleteDatabase("items.db");
 
             itemList.save();
 
+            List<Label> labels = itemList.getLabels();
             for (Label label : labels) {
                 List<Item> items = label.getItems();
-
                 for (Item item : items) {
                     item.setItemList(itemList);
                     item.setLabel(label.getName());

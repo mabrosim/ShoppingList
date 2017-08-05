@@ -12,7 +12,6 @@ import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.tasks.DeleteAllTask;
 import fi.mabrosim.shoppinglist.tasks.ShareCsvFileTask;
 import fi.mabrosim.shoppinglist.tasks.ShareJsonFileTask;
-import fi.mabrosim.shoppinglist.utils.Actions;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -64,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void deleteAllFromDb(View view) {
-        new DeleteAllTask(SettingsActivity.this, new Intent(Actions.ACTION_ALL_DELETED)).execute();
+        new DeleteAllTask(SettingsActivity.this).execute();
         Toast.makeText(SettingsActivity.this, "Database cleared", Toast.LENGTH_SHORT).show();
         finish();
     }

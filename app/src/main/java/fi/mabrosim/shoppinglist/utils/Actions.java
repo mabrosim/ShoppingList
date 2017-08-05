@@ -20,6 +20,7 @@ public final class Actions {
     public static final String EXTRA_RECORD_TYPE = PREFIX + ".extra.RECORD_TYPE";
     public static final String EXTRA_IS_CHECKED  = PREFIX + ".extra.IS_CHECKED";
     public static final String EXTRA_LABEL_NAME  = PREFIX + ".extra.LABEL_NAME";
+    public static final String EXTRA_LIST_NAME  = PREFIX + ".extra.LIST_NAME";
 
     private Actions() {
     }

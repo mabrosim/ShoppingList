@@ -182,12 +182,8 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         this.itemList = itemList;
     }
 
-    static List<Item> findByItemListId(long id) {
+    public static List<Item> findByItemListId(long id) {
         return find(Item.class, "ITEM_LIST = ?", String.valueOf(id));
-    }
-
-    static List<Item> findByLabelId(long id) {
-        return find(Item.class, "LABEL = ?", String.valueOf(id));
     }
 
     /**

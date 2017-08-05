@@ -7,22 +7,20 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import fi.mabrosim.shoppinglist.utils.Dog;
 
-abstract class BroadcastOnCompleteAsyncTask<T> extends AsyncTask<T, Void, Void> {
+abstract class BroadcastOnCompleteAsyncTask<T> extends AsyncTask<T, Void, Intent> {
     private static final String TAG = "BroadcastOnComplete";
 
     final Context mAppContext;
-    final Intent  mIntent;
 
-    BroadcastOnCompleteAsyncTask(Context context, Intent intent) {
+    BroadcastOnCompleteAsyncTask(Context context) {
         mAppContext = context.getApplicationContext();
-        mIntent = intent;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        if (mIntent != null) {
-            Dog.d(TAG, "onPostExecute: " + mIntent.getAction());
-            LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(mIntent);
+    protected void onPostExecute(Intent intent) {
+        if (intent != null) {
+            Dog.d(TAG, "onPostExecute: " + intent.getAction());
+            LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(intent);
         }
     }
 }

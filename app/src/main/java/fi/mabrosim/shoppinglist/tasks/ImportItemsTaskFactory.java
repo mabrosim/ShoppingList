@@ -1,5 +1,6 @@
 package fi.mabrosim.shoppinglist.tasks;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,8 +15,11 @@ public class ImportItemsTaskFactory {
     private static final String TAG = "ImportItemsTaskFactory";
 
     public static void createAndExecute(Context context, Uri uri) {
-        String mimeType = context.getContentResolver().getType(uri);
-        String fileExt = FileUtils.getFileExt(FileUtils.getFileName(context, uri));
+        ContentResolver cr = context.getContentResolver();
+
+        String mimeType = cr.getType(uri);
+        String fileName = FileUtils.getFileName(cr, uri);
+        String fileExt = FileUtils.getExt(fileName);
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -25,10 +29,10 @@ public class ImportItemsTaskFactory {
             new ImportItemsFromJsonTask(context, intent).execute(uri);
         } else if (FileUtils.PROTO_MIME_TYPE.equals(mimeType) && FileUtils.PROTO_FILENAME_EXT.equals(fileExt)) {
             Dog.d(TAG, "onActivityResult: import from PB");
-            new ImportItemsFromPbTask(context, intent).execute(uri);
+            new ImportItemsFromPbTask(context, intent, fileName).execute(uri);
         } else if (FileUtils.CSV_MIME_TYPE.equals(mimeType) && FileUtils.CSV_FILENAME_EXT.equals(fileExt)) {
             Dog.d(TAG, "onActivityResult: import from CSV");
-            new ImportItemsFromCsvTask(context, intent).execute(uri);
+            new ImportItemsFromCsvTask(context, intent, fileName).execute(uri);
         } else {
             Toast.makeText(context, "File not recognised", Toast.LENGTH_SHORT).show();
         }

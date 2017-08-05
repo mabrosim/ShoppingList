@@ -2,6 +2,5 @@
 <resources>
     <item name="buttonState" type="id"/>
     <item name="cachedText" type="id"/>
-    <item name="nav_share" type="id"/>
-    <item name="nav_export" type="id"/>
+    <item name="nav_list_name" type="id"/>
 </resources>

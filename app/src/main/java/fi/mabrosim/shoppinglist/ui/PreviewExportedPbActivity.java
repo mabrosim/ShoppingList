@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
 
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
@@ -37,24 +36,18 @@ public class PreviewExportedPbActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             String result = "Error";
-            Protos.PbItemList itemList;
+            ItemList itemList = ItemList.findCurrentList();
 
-            ItemList items;
-            List<ItemList> itemLists = ItemList.listAll(ItemList.class);
-            if (itemLists.isEmpty()) {
-                items = new ItemList();
-            } else {
-                // TODO item list name should be taken from task params
-                items = itemLists.get(0);
-            }
-
-            ByteArrayInputStream in = new ByteArrayInputStream(items.toPbObject().toByteArray());
-            try {
-                itemList = Protos.PbItemList.parseFrom(in);
-                in.close();
-                result = itemList.toString();
-            } catch (IOException e) {
-                Dog.e("PreviewExportedPb", "getItemsFromDb: ", e);
+            if (itemList != null) {
+                Protos.PbItemList pbItemList;
+                ByteArrayInputStream in = new ByteArrayInputStream(itemList.toPbObject().toByteArray());
+                try {
+                    pbItemList = Protos.PbItemList.parseFrom(in);
+                    in.close();
+                    result = pbItemList.toString();
+                } catch (IOException e) {
+                    Dog.e("PreviewExportedPb", "getItemsFromDb: ", e);
+                }
             }
             return result;
         }

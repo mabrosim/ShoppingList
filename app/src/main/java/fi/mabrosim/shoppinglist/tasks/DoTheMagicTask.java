@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 import fi.mabrosim.shoppinglist.data.RecordType;
 import fi.mabrosim.shoppinglist.data.records.Item;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.Actions;
 
 /**
@@ -22,33 +23,38 @@ import fi.mabrosim.shoppinglist.utils.Actions;
 public class DoTheMagicTask extends BroadcastOnCompleteAsyncTask<Void> {
 
     public DoTheMagicTask(Context context) {
-        super(context, new Intent());
-        mIntent.setAction(Actions.ACTION_RECORDS_UPDATED);
-        mIntent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM);
+        super(context);
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Intent doInBackground(Void... params) {
         selectItems();
-        return null;
+
+        Intent intent = new Intent(Actions.ACTION_RECORDS_UPDATED);
+        intent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM);
+        return intent;
     }
 
     /**
      * Initial implementation of list population based on historical data
      */
     private void selectItems() {
-        ArrayList<Item> items = (ArrayList<Item>) Item.listAll(Item.class);
+        ItemList itemList = ItemList.findCurrentList();
 
-        for (Item item : items) {
-            if (item.isChecked()) {
-                item.setCheckedWithoutLogging(false);
+        if (itemList != null) {
+            List<Item> items = itemList.findItems();
+
+            for (Item item : items) {
+                if (item.isChecked()) {
+                    item.setCheckedWithoutLogging(false);
+                    item.save();
+                }
+            }
+
+            for (Item item : selectItemsByRelevance2(items)) {
+                item.setChecked(true);
                 item.save();
             }
-        }
-
-        for (Item item : selectItemsByRelevance2(items)) {
-            item.setChecked(true);
-            item.save();
         }
     }
 

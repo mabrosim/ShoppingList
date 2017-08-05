@@ -12,4 +12,6 @@
           android:paddingLeft="5dp"
           android:paddingRight="4dp"
           android:paddingStart="5dp"
+          android:maxLines="2"
+          android:lineSpacingMultiplier="0.8"
           android:textSize="20sp"/>
