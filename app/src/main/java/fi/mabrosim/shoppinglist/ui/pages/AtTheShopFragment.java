@@ -1,37 +1,38 @@
 package fi.mabrosim.shoppinglist.ui.pages;
 
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.RecordType;
-import fi.mabrosim.shoppinglist.data.records.Item;
 
-public class AtTheShopFragment extends PageFragment {
-    private static final String TAG = "AtTheShopFragment";
-    private final AtTheShopAdapter mAdapter;
-
+public class AtTheShopFragment extends PageFragment<AtTheShopAdapter> {
     public AtTheShopFragment() {
-        mAdapter = new AtTheShopAdapter();
-        mAdapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                super.onChanged();
-                if (isAdded()) {
-                    setListShown(true);
-                }
-            }
-        });
+        super(new AtTheShopAdapter());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.at_the_shop_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ListView listView = getListView();
+        listView.setFastScrollEnabled(true);
+        listView.setOnItemClickListener(mOnItemClickListener);
+        listView.setOnItemLongClickListener(mOnItemLongClickListener);
         setListAdapter(mAdapter);
+        resetData();
     }
 
     @Override
@@ -39,42 +40,8 @@ public class AtTheShopFragment extends PageFragment {
         inflater.inflate(R.menu.magic_cat, menu);
         inflater.inflate(R.menu.edit_list_name, menu);
         inflater.inflate(R.menu.delete_list, menu);
+        inflater.inflate(R.menu.add_item, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onRecordUpdated(RecordType type, long id) {
-        mAdapter.onRecordUpdated(type, id);
-    }
-
-    @Override
-    public void onRecordAdded(RecordType type, long id) {
-        mAdapter.onRecordAdded(type, id);
-    }
-
-    @Override
-    public void onRecordDeleted(RecordType type, long id) {
-        mAdapter.onRecordDeleted(type, id);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ListView listView = getListView();
-        listView.setFastScrollEnabled(true);
-        setEmptyText("Empty");
-        ((TextView) listView.getEmptyView()).setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.list_view_text_empty));
-        listView.setOnItemClickListener(mOnItemClickListener);
-        listView.setOnItemLongClickListener(mOnItemLongClickListener);
-        resetData();
-    }
-
-    @Override
-    void resetData() {
-        if (isVisible()) {
-            setListShown(false);
-        }
-        mAdapter.notifyDataSetInvalidated();
     }
 
     private final OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
@@ -88,8 +55,7 @@ public class AtTheShopFragment extends PageFragment {
     private final OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Item item = (Item) getListAdapter().getItem(position);
-            item.toggleOnClick(getContext());
+            mAdapter.getItem(position).toggleOnClick(getContext());
         }
     };
 }

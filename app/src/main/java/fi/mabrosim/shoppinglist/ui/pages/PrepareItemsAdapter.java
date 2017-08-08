@@ -199,7 +199,7 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         Item item = Item.findById(Item.class, id);
         if (item != null) {
             for (List<Item> items : mLabeledItems) {
-                int index = -1;
+                int index;
                 for (Item i : items) {
                     if (id == i.getId()) {
                         index = items.indexOf(i);

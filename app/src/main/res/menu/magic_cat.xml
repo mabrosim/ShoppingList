@@ -6,7 +6,7 @@
         android:id="@+id/action_magic"
         android:icon="@mipmap/magic_cat"
         android:menuCategory="secondary"
-        android:orderInCategory="100"
+        android:orderInCategory="49"
         android:title="@string/magic"
         app:showAsAction="ifRoom"/>
 
