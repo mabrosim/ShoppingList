@@ -13,10 +13,9 @@ import java.util.Locale;
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.ItemComparators;
+import fi.mabrosim.shoppinglist.data.records.ItemList;
 
 class SearchItemsAdapter extends SugarRecordAdapter<Item> {
-    private static final String TAG = "SearchItemsAdapter";
-
     SearchItemsAdapter() {
         super(Item.class);
     }
@@ -46,17 +45,21 @@ class SearchItemsAdapter extends SugarRecordAdapter<Item> {
 
     @Override
     protected void addItems(List<Item> items, String filter) {
-        List<Item> itemList = Item.listAll(Item.class);
+        List<Item> dbItems;
+        ItemList itemList = ItemList.findCurrentList();
+        if (itemList != null) {
+            dbItems = itemList.findItems();
 
-        if (filter == null) {
-            items.addAll(itemList);
-        } else {
-            for (Item item : itemList) {
-                if (item.getName().toLowerCase(Locale.ENGLISH).contains(filter.toLowerCase(Locale.ENGLISH))) {
-                    items.add(item);
+            if (filter == null) {
+                items.addAll(dbItems);
+            } else {
+                for (Item item : dbItems) {
+                    if (item.getName().toLowerCase(Locale.ENGLISH).contains(filter.toLowerCase(Locale.ENGLISH))) {
+                        items.add(item);
+                    }
                 }
             }
+            Collections.sort(items, new ItemComparators.ByName());
         }
-        Collections.sort(items, new ItemComparators.ByName());
     }
 }
