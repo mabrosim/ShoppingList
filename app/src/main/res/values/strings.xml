@@ -34,4 +34,7 @@
     <string name="debug_delete_all_from_db">Debug: Delete all from database</string>
     <string name="debug_export_to_json">Debug: Export to json</string>
     <string name="debug_show_exported_data_json">Debug: Show exported json data</string>
+
+    <string name="dialog_title_delete_list">Delete %1$s ?</string>
+    <string name="dialog_message_delete_list">Delete list and its shopping history?</string>
 </resources>

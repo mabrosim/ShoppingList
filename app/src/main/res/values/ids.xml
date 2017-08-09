@@ -3,4 +3,6 @@
     <item name="buttonState" type="id"/>
     <item name="cachedText" type="id"/>
     <item name="nav_list_name" type="id"/>
+    <item name="context_menu_edit_list_name" type="id"/>
+    <item name="context_menu_delete_list" type="id"/>
 </resources>

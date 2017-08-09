@@ -38,8 +38,6 @@ public class AtTheShopFragment extends PageFragment<AtTheShopAdapter> {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.magic_cat, menu);
-        inflater.inflate(R.menu.edit_list_name, menu);
-        inflater.inflate(R.menu.delete_list, menu);
         inflater.inflate(R.menu.add_item, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

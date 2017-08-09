@@ -24,9 +24,6 @@ class MainActivityNavigationListener implements NavigationView.OnNavigationItemS
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_prepare_list:
-                mActivity.showAllItems();
-                break;
             case R.id.nav_share_pb:
                 new ShareProtoFileTask(mActivity).execute();
                 break;

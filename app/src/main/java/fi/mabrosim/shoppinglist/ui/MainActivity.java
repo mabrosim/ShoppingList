@@ -2,20 +2,26 @@ package fi.mabrosim.shoppinglist.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Iterator;
@@ -104,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -128,8 +133,31 @@ public class MainActivity extends AppCompatActivity {
                 new DoTheMagicTask(this).execute();
                 return true;
             }
-            case R.id.action_edit_list_name: {
-                List<ItemList> lists = ItemList.find(ItemList.class, "NAME LIKE ?", mCurrentListName);
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        String listName = String.valueOf(v.getTag());
+        menu.setHeaderTitle(listName);
+
+        Intent intent = new Intent();
+        intent.putExtra("listName", listName);
+
+        menu.add(0, R.id.context_menu_edit_list_name, 0, R.string.action_edit_list_name).setIntent(intent);
+        menu.add(0, R.id.context_menu_delete_list, 0, R.string.delete_list).setIntent(intent);
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.context_menu_edit_list_name: {
+                List<ItemList> lists = ItemList.find(ItemList.class, "NAME LIKE ?", item.getIntent().getStringExtra("listName"));
                 if (lists.size() > 0) {
                     Intent intent = new Intent(this, EditItemListActivity.class);
                     intent.putExtra(Actions.EXTRA_RECORD_ID, lists.get(0).getId());
@@ -138,22 +166,43 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-            case R.id.action_delete_list: {
-                List<ItemList> lists = ItemList.find(ItemList.class, "NAME LIKE ?", mCurrentListName);
-                if (lists.size() > 0) {
-                    new DeleteItemListTask(this).execute(lists.get(0).getId());
-                }
+            case R.id.context_menu_delete_list: {
+                deleteListWithQuery(item.getIntent().getStringExtra("listName"));
                 return true;
             }
-            default: {
-                return super.onOptionsItemSelected(item);
-            }
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
-    void showAllItems() {
-        mViewPager.setCurrentItem(1);
-        setTitleByPosition(1);
+    private void deleteListWithQuery(final String listName) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        List<ItemList> lists = ItemList.find(ItemList.class, "NAME LIKE ?", listName);
+                        if (lists.size() > 0) {
+                            new DeleteItemListTask(MainActivity.this).execute(lists.get(0).getId());
+                        }
+                        dialog.dismiss();
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE: {
+                        dialog.dismiss();
+                        break;
+                    }
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(this.getString(R.string.dialog_title_delete_list, listName))
+                .setMessage(R.string.dialog_message_delete_list)
+                .setPositiveButton(android.R.string.yes, dialogClickListener)
+                .setNegativeButton(android.R.string.no, dialogClickListener)
+                .setIcon(android.R.drawable.ic_delete)
+                .show();
     }
 
     void setActiveList(String name) {
@@ -178,12 +227,18 @@ public class MainActivity extends AppCompatActivity {
             while (itemsIterator.hasNext()) {
                 ItemList il = itemsIterator.next();
                 MenuItem mi = menu.add(0, R.id.nav_list_name, 0, il.getName());
+                mi.setIcon(R.drawable.ic_shopping_cart_black_24dp);
                 if (mCurrentListName.equals(il.getName())) {
                     mi.setChecked(true);
                 } else {
                     mi.setChecked(false);
                 }
-                mi.setIcon(R.drawable.ic_shopping_cart_black_24dp);
+
+                ImageView av = new ImageView(this);
+                av.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_touch_app_grey_500_24dp));
+                av.setTag(mi.getTitle());
+                mi.setActionView(av);
+                registerForContextMenu(av);
             }
             navigationView.setCheckedItem(R.id.nav_settings);
             navigationView.inflateMenu(R.menu.activity_main_drawer);
