@@ -15,10 +15,10 @@ import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.FileUtils;
 
-public class ExportItemsToJsonFileTask extends AsyncTask<Void, Void, File> {
+class ExportItemsToJsonFileTask extends AsyncTask<Void, Void, File> {
     final Context mAppContext;
 
-    public ExportItemsToJsonFileTask(Context context) {
+    ExportItemsToJsonFileTask(Context context) {
         mAppContext = context;
     }
 

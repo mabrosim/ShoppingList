@@ -3,8 +3,8 @@ package fi.mabrosim.shoppinglist.tasks;
 import android.content.Context;
 import android.content.Intent;
 
-import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.RecordType;
+import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
 import fi.mabrosim.shoppinglist.utils.Actions;
 

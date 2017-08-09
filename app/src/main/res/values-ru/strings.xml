@@ -9,8 +9,6 @@
     <string name="label">Ярлык</string>
     <string name="list_name">Список</string>
     <string name="prepare_list">Составить список</string>
-    <string name="at_the_shop">Список покупок</string>
-    <string name="edit_items">Редактировать</string>
     <string name="share">Отправить через …</string>
     <string name="import_items">Импортировать список</string>
 
@@ -18,7 +16,6 @@
     <string name="search">Поиск</string>
     <string name="uncheck_all">Очистить список</string>
     <string name="add_item">Добавить покупку</string>
-    <string name="add_label">Добавить ярлык</string>
     <string name="please_wait">Пожалуйста, подождите</string>
     <string name="google_cloud">Google cloud</string>
     <string name="magic">Вжух, и список готов!</string>

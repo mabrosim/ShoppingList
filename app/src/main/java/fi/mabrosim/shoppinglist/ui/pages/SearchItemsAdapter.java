@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Locale;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.ItemComparators;
+import fi.mabrosim.shoppinglist.data.records.Item;
 import fi.mabrosim.shoppinglist.data.records.ItemList;
 
 class SearchItemsAdapter extends SugarRecordAdapter<Item> {

@@ -17,7 +17,6 @@
             android:icon="@drawable/ic_menu_share_black_24dp"
             android:title="@string/share"/>
         <item
-            android:id="@+id/nav_export_pb"
             android:icon="@drawable/ic_file_upload_black_24dp"
             android:title="@string/export_pb_items"
             android:visible="false"/>

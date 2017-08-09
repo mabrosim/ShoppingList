@@ -22,7 +22,6 @@ import fi.mabrosim.shoppinglist.utils.CsvUtils;
 
 public class PreviewExportedCsvActivity extends AppCompatActivity {
     private TextView mPreviewTv;
-    private static final String TAG = "PreviewExportedCsvActiv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

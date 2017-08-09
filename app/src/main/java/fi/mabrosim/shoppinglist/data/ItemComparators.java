@@ -32,14 +32,6 @@ public final class ItemComparators {
         }
     }
 
-    private static class ByLabel implements Comparator<Item>, Serializable {
-
-        @Override
-        public int compare(Item lhs, Item rhs) {
-            return byLabel(lhs, rhs);
-        }
-    }
-
     private static int byName(Item lhs, Item rhs) {
         return lhs.getName().compareTo(rhs.getName());
     }
@@ -52,9 +44,5 @@ public final class ItemComparators {
         String lhsName = lhs.getLabelName();
         String rhsName = rhs.getLabelName();
         return lhsName.equals(rhsName) ? byName(lhs, rhs) : lhsName.compareTo(rhsName);
-    }
-
-    private static int compare(long x, long y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 }

@@ -62,15 +62,15 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    public PageFragment getRegisteredFragment(int position) {
+    PageFragment getRegisteredFragment(int position) {
         return mRegisteredFragments.get(position);
     }
 
-    public void resetRegisteredFragment(int position) {
+    void resetRegisteredFragment(int position) {
         mRegisteredFragments.valueAt(position).resetData();
     }
 
-    public void resetRegisteredFragments() {
+    void resetRegisteredFragments() {
         int size = mRegisteredFragments.size();
         for (int i = 0; i < size; i++) {
             mRegisteredFragments.valueAt(i).resetData();

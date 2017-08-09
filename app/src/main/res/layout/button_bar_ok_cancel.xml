@@ -3,7 +3,6 @@
               xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageButton
-        android:id="@+id/buttonCancel"
         style="@style/EditButtonStyle2"
         android:layout_gravity="end"
         android:onClick="onCancelButtonClick"
@@ -14,7 +13,6 @@
         android:layout_height="match_parent"/>
 
     <ImageButton
-        android:id="@+id/buttonOk"
         style="@style/EditButtonStyle2"
         android:layout_gravity="start"
         android:onClick="onOkButtonClick"

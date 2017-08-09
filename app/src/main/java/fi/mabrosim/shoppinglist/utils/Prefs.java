@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 public final class Prefs {
     private static final String PREFS_NAME            = "fi.mabrosim.shoppinglist.prefs";
     private static final String PREF_READY            = "READY";
-    private static final String PREF_ACTIVE_LIST_NAME = "KEY_ACTIVE_LIST_NAME";
 
     private Prefs() {
     }

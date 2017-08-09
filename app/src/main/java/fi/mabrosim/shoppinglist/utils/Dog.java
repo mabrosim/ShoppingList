@@ -8,10 +8,6 @@ import fi.mabrosim.shoppinglist.BuildConfig;
 public final class Dog {
     private static final boolean LOG = BuildConfig.DEBUG;
 
-    public static void e(String tag, String string) {
-        if (LOG) android.util.Log.e(tag, string);
-    }
-
     public static void e(String tag, String string, Throwable e) {
         if (LOG) android.util.Log.e(tag, string, e);
     }

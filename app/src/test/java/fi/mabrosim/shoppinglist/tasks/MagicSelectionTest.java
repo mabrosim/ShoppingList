@@ -16,7 +16,6 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import fi.mabrosim.shoppinglist.BuildConfig;
@@ -25,19 +24,18 @@ import fi.mabrosim.shoppinglist.data.records.Item;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class MagicSelectionTest {
-    private static final String TAG             = "MagicSelectionTest";
     private static final Type   TYPE_ITEMS_JSON = new TypeToken<List<Item>>() {
     }.getType();
 
     @Test
     public void fileObjectShouldNotBeNull() throws Exception {
-        File file = getFileFromPath(this, "items-20170724-1157.json");
+        File file = getFileFromPath(this);
         Assert.assertNotNull(file);
     }
 
     @Test
     public void readItemsFromJsonFile() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         Assert.assertFalse(items.isEmpty());
@@ -46,7 +44,7 @@ public class MagicSelectionTest {
 
     @Test
     public void selectItemsByRelevanceOld() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         ArrayList<Item> selectedItems = new ArrayList<>();
@@ -60,7 +58,7 @@ public class MagicSelectionTest {
 
     @Test
     public void selectItemsByRelevanceNew() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         ArrayList<Item> selectedItems = new ArrayList<>();
@@ -74,7 +72,7 @@ public class MagicSelectionTest {
 
     @Test
     public void dropShortSelectionsByTimeDeltaTest() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         verifyLogs(4316466399175103L, 4235786704524526L, items);
@@ -86,7 +84,7 @@ public class MagicSelectionTest {
 
     @Test
     public void reduceLogsTest() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         verifyLogs(4316466399175103L, 4235786704524526L, items);
@@ -98,7 +96,7 @@ public class MagicSelectionTest {
 
     @Test
     public void reduceLogsAndDropSelectionsTest() throws Exception {
-        Reader reader = new FileReader(getFileFromPath(this, "items-20170724-1157.json"));
+        Reader reader = new FileReader(getFileFromPath(this));
         List<Item> items = new Gson().fromJson(reader, TYPE_ITEMS_JSON);
 
         verifyLogs(4316466399175103L, 4235786704524526L, items);
@@ -125,21 +123,21 @@ public class MagicSelectionTest {
         Assert.assertEquals(uncheckedSumExp, uncheckedSum.longValue());
     }
 
-    private static File getFileFromPath(Object obj, String fileName) {
+    private static File getFileFromPath(Object obj) {
         ClassLoader classLoader = obj.getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
+        URL resource = classLoader.getResource("items-20170724-1157.json");
         return new File(resource.getPath());
     }
 
-    private static void printItemsSorted(List<Item> items) {
-        printItemsSorted("", items);
+/*    private static void printItemsSorted(List<Item> items) {
+        printItemsSorted(items);
     }
 
-    private static void printItemsSorted(String msg, List<Item> items) {
-        System.out.println(msg + " ============");
+    private static void printItemsSorted(List<Item> items) {
+        System.out.println("" + " ============");
         Collections.sort(items, new DoTheMagicTask.ByCheckFrequency());
         for (Item item : items) {
             System.out.println(item.getName() + " " + item.getLogCheckedList());
         }
-    }
+    }*/
 }

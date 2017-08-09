@@ -174,10 +174,6 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         this.quantity = quantity;
     }
 
-    public ItemList getItemList() {
-        return itemList;
-    }
-
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
     }

@@ -67,14 +67,6 @@ public class ItemList extends ProtoEntity<PbItemList> {
         this.name = name;
     }
 
-    public List<Item> getItems() {
-        List<Item> items = new ArrayList<>();
-        for (Label label : mLabels) {
-            items.addAll(label.getItems());
-        }
-        return items;
-    }
-
     public List<Label> getLabels() {
         return mLabels;
     }
