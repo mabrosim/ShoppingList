@@ -17,7 +17,7 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="uncheck_all">Очистить список</string>
-    <string name="add_item">Добавить</string>
+    <string name="add_item">Добавить покупку</string>
     <string name="add_label">Добавить ярлык</string>
     <string name="please_wait">Пожалуйста, подождите</string>
     <string name="google_cloud">Google cloud</string>
@@ -31,5 +31,8 @@
     <string name="debug_show_exported_data_csv">Debug: Show exported csv data</string>
     <string name="debug_export_to_csv">Debug: Export to csv</string>
     <string name="debug_delete_all_from_db">Debug: Delete all from database</string>
+
+    <string name="dialog_title_delete_list">Удалить %1$s ?</string>
+    <string name="dialog_message_delete_list">Удалить список и историю покупок ?</string>
 
 </resources>
