@@ -43,6 +43,14 @@ public class MainViewPager extends ViewPager {
         addOnPageChangeListener(mOnPageChangeListener);
     }
 
+    public void resetActiveFragment() {
+        mAdapter.resetRegisteredFragment(getCurrentItem());
+    }
+
+    public void resetRegisteredFragments() {
+        mAdapter.resetRegisteredFragments();
+    }
+
     private class OnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override

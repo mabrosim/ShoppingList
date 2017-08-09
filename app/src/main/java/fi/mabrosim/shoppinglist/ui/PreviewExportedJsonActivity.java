@@ -15,7 +15,6 @@ import fi.mabrosim.shoppinglist.data.records.ItemList;
 
 public class PreviewExportedJsonActivity extends AppCompatActivity {
     private TextView mPreviewTv;
-    private static final String TAG = "PreviewExportedJsonActiv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -20,7 +20,6 @@
         android:orientation="vertical">
 
         <Switch
-            android:id="@+id/cloudSwitch"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
             android:gravity="center_vertical"
@@ -68,7 +67,6 @@
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
 
         <TextView
-            android:id="@+id/settings_delete_all_from_db"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
             android:gravity="center_vertical"

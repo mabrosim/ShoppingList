@@ -30,10 +30,6 @@ public class Label extends Proto<PbLabel> {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Item> getItems() {
         return mItems;
     }

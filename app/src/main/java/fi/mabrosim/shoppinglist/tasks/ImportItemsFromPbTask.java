@@ -19,8 +19,6 @@ import fi.mabrosim.shoppinglist.utils.FileUtils;
 
 class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Long> {
 
-    private static final String TAG = "ImportItemsFromPbTask";
-
     private final Context mAppContext;
     private final Intent  mIntent;
     private final String  mFileName;

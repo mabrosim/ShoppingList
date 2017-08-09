@@ -259,20 +259,20 @@ public class MainActivity extends AppCompatActivity {
                     case Actions.ACTION_RECORD_UPDATED: {
                         mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
                         switchToActiveListFragment();
-                        ((MainViewPagerAdapter) mViewPager.getAdapter()).resetRegisteredFragment(0);
+                        mViewPager.resetActiveFragment();
                         break;
                     }
                     case Actions.ACTION_RECORD_ADDED: {
                         mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
                         switchToActiveListFragment();
-                        ((MainViewPagerAdapter) mViewPager.getAdapter()).resetRegisteredFragments();
+                        mViewPager.resetRegisteredFragments();
                         break;
                     }
                     case Actions.ACTION_RECORD_DELETED: {
                         ItemList itemList = ItemList.first(ItemList.class);
                         mCurrentListName = itemList != null ? itemList.getName() : "";
                         switchToActiveListFragment();
-                        ((MainViewPagerAdapter) mViewPager.getAdapter()).resetRegisteredFragments();
+                        mViewPager.resetRegisteredFragments();
                         break;
                     }
 

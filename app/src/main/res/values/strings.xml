@@ -10,8 +10,6 @@
     <string name="label">Label</string>
     <string name="list_name">List name</string>
     <string name="prepare_list">Prepare List</string>
-    <string name="at_the_shop">At The Shop</string>
-    <string name="edit_items">Edit Items</string>
     <string name="share">Share via …</string>
     <string name="export_pb_items">Export PB items</string>
     <string name="import_items">Import items</string>
@@ -19,7 +17,6 @@
     <string name="search">Search</string>
     <string name="uncheck_all">Uncheck All</string>
     <string name="add_item">Add item</string>
-    <string name="add_label">Add label</string>
     <string name="please_wait">Please, wait</string>
     <string name="google_cloud">Google cloud</string>
     <string name="magic">Magic</string>
