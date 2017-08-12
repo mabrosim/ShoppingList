@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +48,9 @@ class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Long> {
                 for (ItemList il : localLists) {
                     if (il.getName().equals(itemList.getName())) {
                         ItemList.delete(il);
+                    } else if (il.isCurrent()) {
+                        il.setCurrent(false);
+                        il.save();
                     }
                 }
 
@@ -73,10 +75,9 @@ class ImportItemsFromPbTask extends AsyncTask<Uri, Void, Long> {
 
     @Override
     protected void onPostExecute(Long aLong) {
+        mIntent.setAction(Actions.ACTION_RECORD_ADDED);
+        mIntent.putExtra(Actions.EXTRA_RECORD_ID, aLong);
+        mIntent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM_LIST);
         mAppContext.startActivity(mIntent);
-        Intent intent = new Intent(Actions.ACTION_RECORD_ADDED);
-        intent.putExtra(Actions.EXTRA_RECORD_ID, aLong);
-        intent.putExtra(Actions.EXTRA_RECORD_TYPE, RecordType.ITEM_LIST);
-        LocalBroadcastManager.getInstance(mAppContext).sendBroadcast(intent);
     }
 }
