@@ -24,7 +24,10 @@ class ExportItemsToPbFileTask extends AsyncTask<Void, Void, File> {
         if (itemList != null) {
             File file = FileUtils.PROTO.newFile(mAppContext);
 
-            itemList.setName(file.getName());
+            if (itemList.getName().isEmpty() || itemList.getName().equals("List")) {
+                itemList.setName(FileUtils.getBase(file.getName()));
+            }
+
             try {
                 FileOutputStream outputStream = new FileOutputStream(file);
                 outputStream.write(itemList.toByteArray());
