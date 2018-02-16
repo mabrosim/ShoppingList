@@ -68,7 +68,8 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_label, parent, false);
-
+        }
+        if (convertView != null) {
             TextView label = convertView.findViewById(R.id.labelTextView);
             label.setText(mLabels.get(groupPosition));
 
@@ -83,16 +84,18 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_checked_textview, parent, false);
+        }
 
-            Item item = mLabeledItems.get(groupPosition).get(childPosition);
-            StringBuilder sb = new StringBuilder();
-            sb.append(item.getName());
+        Item item = mLabeledItems.get(groupPosition).get(childPosition);
+        StringBuilder sb = new StringBuilder();
+        sb.append(item.getName());
 
-            String quantity = item.getQuantity();
-            if (!quantity.isEmpty()) {
-                sb.append(", ");
-                sb.append(quantity);
-            }
+        String quantity = item.getQuantity();
+        if (!quantity.isEmpty()) {
+            sb.append(", ");
+            sb.append(quantity);
+        }
+        if (convertView != null) {
             CheckBox checkedView = convertView.findViewById(android.R.id.text1);
             checkedView.setText(sb);
             checkedView.setChecked(item.isChecked());

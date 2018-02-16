@@ -52,10 +52,10 @@
                 <action android:name="android.intent.action.GET_CONTENT"/>
 
                 <data
-                    android:host="*"
                     android:mimeType="application/octet-stream"
                     android:pathPattern=".*\\.pb"
-                    android:scheme="content"/>
+                    android:scheme="content"
+                    tools:ignore="AppLinkUrlError"/>
             </intent-filter>
 
         </activity>
