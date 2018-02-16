@@ -27,13 +27,13 @@ public class PreviewExportedCsvActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_pb);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mPreviewTv = (TextView) findViewById(R.id.previewPb);
+        mPreviewTv = findViewById(R.id.previewPb);
         new getItemsFromDb().execute();
     }
 
@@ -59,7 +59,7 @@ public class PreviewExportedCsvActivity extends AppCompatActivity {
 
                 StringWriter sWriter = new StringWriter();
                 try {
-                    CSVWriter writer = new CSVWriter(sWriter, ',');
+                    CSVWriter writer = new CSVWriter(sWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
                     for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
                         writer.writeNext(a);
                     }

@@ -29,11 +29,11 @@ public class EditLabelActivity extends Activity implements ButtonClicksListener 
         mLabelName = getIntent().getStringExtra(Actions.EXTRA_LABEL_NAME);
         mRecordIds = getIntent().getStringArrayExtra(Actions.EXTRA_RECORD_IDS);
 
-        mEditName = (EditText) findViewById(R.id.editName);
+        mEditName = findViewById(R.id.editName);
 
         for (int i = 0; i < EDIT_TEXT_IDS.length; i++) {
-            EditText editText = (EditText) findViewById(EDIT_TEXT_IDS[i]);
-            ImageButton imageButton = (ImageButton) findViewById(BUTTON_IDS.get(i));
+            EditText editText = findViewById(EDIT_TEXT_IDS[i]);
+            ImageButton imageButton = findViewById(BUTTON_IDS.get(i));
 
             editText.addTextChangedListener(new ButtonStateTextWatcher(imageButton));
             imageButton.setTag(R.id.cachedText, "");
@@ -56,7 +56,7 @@ public class EditLabelActivity extends Activity implements ButtonClicksListener 
     public void onButtonClick(View view) {
         switch ((ButtonStateTextWatcher.STATE) view.getTag(R.id.buttonState)) {
             case CLEAR: {
-                EditText editText = (EditText) findViewById(EDIT_TEXT_IDS[BUTTON_IDS.indexOf(view.getId())]);
+                EditText editText = findViewById(EDIT_TEXT_IDS[BUTTON_IDS.indexOf(view.getId())]);
                 view.setTag(R.id.cachedText, editText.getText().toString());
                 editText.setText("");
                 break;

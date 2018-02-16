@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/black_overlay"
     android:clickable="true"
+    android:focusable="true"
     android:visibility="gone"
     tools:showIn="@layout/at_the_shop_list">
 

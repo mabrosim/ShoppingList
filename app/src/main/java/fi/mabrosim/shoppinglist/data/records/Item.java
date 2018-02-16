@@ -78,11 +78,11 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         this.checked = checked;
         if (checked) {
             uncheckedTime = -1L;
-            checkedTime = TimeUtils.DateAsLong(timestamp);
+            checkedTime = TimeUtils.dateAsLong(timestamp);
             addLogCheckedTimestamp(checkedTime);
         } else {
             checkedTime = -1L;
-            uncheckedTime = TimeUtils.DateAsLong(timestamp);
+            uncheckedTime = TimeUtils.dateAsLong(timestamp);
             addLogUncheckedTimestamp(uncheckedTime);
         }
     }
@@ -97,8 +97,8 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
         setChecked(!checked);
     }
 
-    public void setCheckedWithoutLogging(boolean checked) {
-        this.checked = checked;
+    public void setUncheckedWithoutLogging() {
+        this.checked = false;
     }
 
     public void toggleOnClick(Context context) {
@@ -176,6 +176,11 @@ public class Item extends ProtoEntity<PbItem> implements Checkable {
 
     public void setItemList(ItemList itemList) {
         this.itemList = itemList;
+    }
+
+    @SuppressWarnings("unused")
+    public ItemList getItemList() {
+        return itemList;
     }
 
     public static List<Item> findByItemListId(long id) {

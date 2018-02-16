@@ -51,8 +51,14 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+    <style name="EditButtonStyle" parent="EditButtonStyleNoMargin">
+        <item name="android:layout_marginLeft">6dp</item>
+    </style>
+
+    <style name="EditTexTitleStyle" parent="EditTexTitleStyleNoMargin">
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingLeft">2dp</item>
     </style>
 
 </resources>

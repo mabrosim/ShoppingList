@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
@@ -74,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
         }
         setTitleByPosition(0);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(new MainActivityNavigationListener(this));
             updateNavigationDrawer();
         }
 
-        mViewPager = (MainViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.addOnPageChangeListener(new SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNavigationDrawer() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
 
             final Menu menu = navigationView.getMenu();
@@ -263,29 +263,30 @@ public class MainActivity extends AppCompatActivity {
 
             if (RecordType.ITEM_LIST.equals(type) && listId != 0L) {
                 String action = intent.getAction();
-                switch (action) {
-                    case Actions.ACTION_RECORD_UPDATED: {
-                        mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
-                        switchToActiveListFragment();
-                        mViewPager.resetActiveFragment();
-                        break;
-                    }
-                    case Actions.ACTION_RECORD_ADDED: {
-                        mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
-                        switchToActiveListFragment();
-                        mViewPager.resetRegisteredFragments();
-                        break;
-                    }
-                    case Actions.ACTION_RECORD_DELETED: {
-                        ItemList itemList = ItemList.first(ItemList.class);
-                        mCurrentListName = itemList != null ? itemList.getName() : "";
-                        switchToActiveListFragment();
-                        mViewPager.resetRegisteredFragments();
-                        break;
-                    }
-
-                    default: {
-                        break;
+                if (action != null) {
+                    switch (action) {
+                        case Actions.ACTION_RECORD_UPDATED: {
+                            mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
+                            switchToActiveListFragment();
+                            mViewPager.resetActiveFragment();
+                            break;
+                        }
+                        case Actions.ACTION_RECORD_ADDED: {
+                            mCurrentListName = ItemList.findById(ItemList.class, listId).getName();
+                            switchToActiveListFragment();
+                            mViewPager.resetRegisteredFragments();
+                            break;
+                        }
+                        case Actions.ACTION_RECORD_DELETED: {
+                            ItemList itemList = ItemList.first(ItemList.class);
+                            mCurrentListName = itemList != null ? itemList.getName() : "";
+                            switchToActiveListFragment();
+                            mViewPager.resetRegisteredFragments();
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
                     }
                 }
             }

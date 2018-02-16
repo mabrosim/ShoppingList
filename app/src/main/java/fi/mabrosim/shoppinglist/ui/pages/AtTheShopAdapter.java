@@ -32,39 +32,38 @@ final class AtTheShopAdapter extends SugarRecordAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
+        if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_checked_textview, parent, false);
+
+            Item item = getItem(position);
+            StringBuilder sb = new StringBuilder();
+            sb.append(item.getName());
+
+            String quantity = item.getQuantity();
+            if (!quantity.isEmpty()) {
+                sb.append(", ");
+                sb.append(quantity);
+            }
+            boolean isChecked = item.isChecked();
+
+            CheckBox checkedView = convertView.findViewById(android.R.id.text1);
+            checkedView.setText(sb);
+            checkedView.setChecked(isChecked);
+            if (!isChecked) {
+                checkedView.setTextColor(Color.GRAY);
+                checkedView.setPaintFlags(checkedView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                checkedView.setTextColor(Color.BLACK);
+                checkedView.setPaintFlags(checkedView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
         }
-
-        Item item = getItem(position);
-        StringBuilder sb = new StringBuilder();
-        sb.append(item.getName());
-
-        String quantity = item.getQuantity();
-        if (!quantity.isEmpty()) {
-            sb.append(", ");
-            sb.append(quantity);
-        }
-        boolean isChecked = item.isChecked();
-
-        CheckBox checkedView = (CheckBox) convertView.findViewById(android.R.id.text1);
-        checkedView.setText(sb);
-        checkedView.setChecked(isChecked);
-        if (!isChecked) {
-            checkedView.setTextColor(Color.GRAY);
-            checkedView.setPaintFlags(checkedView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        } else {
-            checkedView.setTextColor(Color.BLACK);
-            checkedView.setPaintFlags(checkedView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        }
-
         return convertView;
     }
 
 
     @Override
     protected void addItems(List<Item> items, String filter) {
-        long noLaterThan = TimeUtils.DateAsLong(new Date(System.currentTimeMillis() - TIME_TO_KEEP_UNCHECKED_ITEMS_MS));
+        long noLaterThan = TimeUtils.dateAsLong(new Date(System.currentTimeMillis() - TIME_TO_KEEP_UNCHECKED_ITEMS_MS));
         ItemList itemList = ItemList.findCurrentList();
         if (itemList != null) {
             items.addAll(Item.find(Item.class, "ITEM_LIST=? AND (CHECKED=1 OR UNCHECKED_TIME>=?)", String.valueOf(itemList.getId()), String.valueOf(noLaterThan)));

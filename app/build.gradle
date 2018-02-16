@@ -39,16 +39,16 @@ android.applicationVariants.all { variant ->
 }
 
 dependencies {
-    compile project(':protobuf')
-    compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
-    compile 'com.android.support:design:' + rootProject.ext.supportLibVersion
-    compile 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
-    compile 'com.github.satyan:sugar:1.5'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile('com.opencsv:opencsv:3.10') {
+    implementation project(':protobuf')
+    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
+    implementation 'com.android.support:design:' + rootProject.ext.supportLibVersion
+    implementation 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
+    implementation 'com.github.satyan:sugar:1.5'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation('com.opencsv:opencsv:4.1') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
-    testCompile 'junit:junit:' + rootProject.ext.junitVersion
-    testCompile "org.robolectric:robolectric:3.3.2"
+    testImplementation 'junit:junit:' + rootProject.ext.junitVersion
+    testImplementation "org.robolectric:robolectric:3.7"
 }

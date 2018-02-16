@@ -1,7 +1,9 @@
 package fi.mabrosim.shoppinglist.ui.pages;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +27,7 @@ public class PrepareItemsFragment extends PageFragment<PrepareItemsAdapter> {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ExpandableListView listView = (ExpandableListView) getListView();
@@ -43,11 +45,14 @@ public class PrepareItemsFragment extends PageFragment<PrepareItemsAdapter> {
     }
 
     private void launchEditLabelActivity(String name, String[] ids) {
-        Intent intent = new Intent(getActivity(), EditLabelActivity.class);
-        intent.putExtra(Actions.EXTRA_LABEL_NAME, name);
-        intent.putExtra(Actions.EXTRA_RECORD_IDS, ids);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        Activity activity = getActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, EditLabelActivity.class);
+            intent.putExtra(Actions.EXTRA_LABEL_NAME, name);
+            intent.putExtra(Actions.EXTRA_RECORD_IDS, ids);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(intent);
+        }
     }
 
     private final ExpandableListView.OnItemLongClickListener mOnItemLongClickListener = new ExpandableListView.OnItemLongClickListener() {

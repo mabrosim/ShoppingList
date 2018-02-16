@@ -44,7 +44,7 @@ class ExportItemsToCsvFileTask extends AsyncTask<Void, Void, File> {
 
             File file = FileUtils.CSV.newFile(mAppContext);
             try {
-                CSVWriter writer = new CSVWriter(new FileWriter(file), ',');
+                CSVWriter writer = new CSVWriter(new FileWriter(file), CSVWriter.DEFAULT_SEPARATOR, CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
                 for (String[] a : CsvUtils.transpose2dArrayToMatrix(labeledItemNames.toArray(new String[labeledItemNames.size()][]))) {
                     writer.writeNext(a);
                 }

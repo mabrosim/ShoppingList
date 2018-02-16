@@ -46,7 +46,7 @@ public class DoTheMagicTask extends BroadcastOnCompleteAsyncTask<Void> {
 
             for (Item item : items) {
                 if (item.isChecked()) {
-                    item.setCheckedWithoutLogging(false);
+                    item.setUncheckedWithoutLogging();
                     item.save();
                 }
             }

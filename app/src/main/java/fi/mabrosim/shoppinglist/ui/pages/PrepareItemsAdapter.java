@@ -66,37 +66,37 @@ class PrepareItemsAdapter extends BaseExpandableListAdapter implements RecordLis
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
+        if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_label, parent, false);
-        }
-        TextView label = (TextView) convertView.findViewById(R.id.labelTextView);
-        label.setText(mLabels.get(groupPosition));
 
-        TextView sum = (TextView) convertView.findViewById(R.id.itemCount);
-        sum.setText(String.valueOf(mLabeledItems.get(groupPosition).size()));
+            TextView label = convertView.findViewById(R.id.labelTextView);
+            label.setText(mLabels.get(groupPosition));
+
+            TextView sum = convertView.findViewById(R.id.itemCount);
+            sum.setText(String.valueOf(mLabeledItems.get(groupPosition).size()));
+        }
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
+        if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_checked_textview, parent, false);
+
+            Item item = mLabeledItems.get(groupPosition).get(childPosition);
+            StringBuilder sb = new StringBuilder();
+            sb.append(item.getName());
+
+            String quantity = item.getQuantity();
+            if (!quantity.isEmpty()) {
+                sb.append(", ");
+                sb.append(quantity);
+            }
+            CheckBox checkedView = convertView.findViewById(android.R.id.text1);
+            checkedView.setText(sb);
+            checkedView.setChecked(item.isChecked());
         }
-
-        Item item = mLabeledItems.get(groupPosition).get(childPosition);
-        StringBuilder sb = new StringBuilder();
-        sb.append(item.getName());
-
-        String quantity = item.getQuantity();
-        if (!quantity.isEmpty()) {
-            sb.append(", ");
-            sb.append(quantity);
-        }
-        CheckBox checkedView = (CheckBox) convertView.findViewById(android.R.id.text1);
-        checkedView.setText(sb);
-        checkedView.setChecked(item.isChecked());
-
         return convertView;
     }
 

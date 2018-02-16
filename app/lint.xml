@@ -7,4 +7,13 @@
     <issue id="ContentDescription" severity="ignore"/>
     <issue id="IconDensities" severity="ignore"/>
     <issue id="MissingTranslation" severity="ignore"/>
+    <!--Explicitly using ApplicationContext reference in asynTasks-->
+    <!--Usage of asyncTasks as innerclasses is checked -->
+    <issue id="StaticFieldLeak" severity="ignore"/>
+    <issue id="Overdraw">
+        <ignore path="res/layout/search_list.xml"/>
+    </issue>
+    <issue id="IconColors">
+        <ignore path="res/mipmap-hdpi/magic_cat.jpg"/>
+    </issue>
 </lint>

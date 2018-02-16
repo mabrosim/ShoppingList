@@ -99,69 +99,71 @@ public class MainViewPager extends ViewPager {
             String action = intent.getAction();
             RecordType type = (RecordType) intent.getSerializableExtra(Actions.EXTRA_RECORD_TYPE);
 
-            switch (action) {
-                case Actions.ACTION_RECORD_UPDATED: {
-                    long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
-                    Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
+            if (action != null) {
+                switch (action) {
+                    case Actions.ACTION_RECORD_UPDATED: {
+                        long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
+                        Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
 
-                    for (int j = 0; j < mAdapter.getCount(); j++) {
-                        PageFragment fragment = mAdapter.getRegisteredFragment(j);
-                        if (fragment != null) {
-                            fragment.onRecordUpdated(type, id);
+                        for (int j = 0; j < mAdapter.getCount(); j++) {
+                            PageFragment fragment = mAdapter.getRegisteredFragment(j);
+                            if (fragment != null) {
+                                fragment.onRecordUpdated(type, id);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
 
-                case Actions.ACTION_RECORDS_UPDATED: {
-                    long ids[] = intent.getLongArrayExtra(Actions.EXTRA_RECORD_IDS);
+                    case Actions.ACTION_RECORDS_UPDATED: {
+                        long ids[] = intent.getLongArrayExtra(Actions.EXTRA_RECORD_IDS);
 
-                    for (int j = 0; j < mAdapter.getCount(); j++) {
-                        PageFragment fragment = mAdapter.getRegisteredFragment(j);
-                        if (fragment != null) {
-                            if (ids == null || ids.length == 0) {
-                                fragment.resetData();
-                            } else {
-                                for (long id : ids) {
-                                    fragment.onRecordUpdated(type, id);
+                        for (int j = 0; j < mAdapter.getCount(); j++) {
+                            PageFragment fragment = mAdapter.getRegisteredFragment(j);
+                            if (fragment != null) {
+                                if (ids == null || ids.length == 0) {
+                                    fragment.resetData();
+                                } else {
+                                    for (long id : ids) {
+                                        fragment.onRecordUpdated(type, id);
+                                    }
                                 }
                             }
                         }
+                        break;
                     }
-                    break;
-                }
-                case Actions.ACTION_RECORD_ADDED: {
-                    long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
-                    Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
+                    case Actions.ACTION_RECORD_ADDED: {
+                        long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
+                        Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
 
-                    for (int j = 0; j < mAdapter.getCount(); j++) {
-                        PageFragment fragment = mAdapter.getRegisteredFragment(j);
-                        if (fragment != null) {
-                            fragment.onRecordAdded(type, id);
+                        for (int j = 0; j < mAdapter.getCount(); j++) {
+                            PageFragment fragment = mAdapter.getRegisteredFragment(j);
+                            if (fragment != null) {
+                                fragment.onRecordAdded(type, id);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                case Actions.ACTION_RECORD_DELETED: {
-                    long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
-                    Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
+                    case Actions.ACTION_RECORD_DELETED: {
+                        long id = intent.getLongExtra(Actions.EXTRA_RECORD_ID, 0L);
+                        Dog.d(TAG, "onReceive: " + intent.getAction() + " " + type + " " + id);
 
-                    for (int j = 0; j < mAdapter.getCount(); j++) {
-                        PageFragment fragment = mAdapter.getRegisteredFragment(j);
-                        if (fragment != null) {
-                            fragment.onRecordDeleted(type, id);
+                        for (int j = 0; j < mAdapter.getCount(); j++) {
+                            PageFragment fragment = mAdapter.getRegisteredFragment(j);
+                            if (fragment != null) {
+                                fragment.onRecordDeleted(type, id);
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
-                default: {
-                    for (int j = 0; j < mAdapter.getCount(); j++) {
-                        PageFragment fragment = mAdapter.getRegisteredFragment(j);
-                        if (fragment != null) {
-                            fragment.resetData();
+                    default: {
+                        for (int j = 0; j < mAdapter.getCount(); j++) {
+                            PageFragment fragment = mAdapter.getRegisteredFragment(j);
+                            if (fragment != null) {
+                                fragment.resetData();
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
