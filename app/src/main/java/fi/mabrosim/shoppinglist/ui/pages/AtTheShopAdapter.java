@@ -34,18 +34,20 @@ final class AtTheShopAdapter extends SugarRecordAdapter<Item> {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null && inflater != null) {
             convertView = inflater.inflate(R.layout.list_item_checked_textview, parent, false);
+        }
 
-            Item item = getItem(position);
-            StringBuilder sb = new StringBuilder();
-            sb.append(item.getName());
+        Item item = getItem(position);
+        StringBuilder sb = new StringBuilder();
+        sb.append(item.getName());
 
-            String quantity = item.getQuantity();
-            if (!quantity.isEmpty()) {
-                sb.append(", ");
-                sb.append(quantity);
-            }
-            boolean isChecked = item.isChecked();
+        String quantity = item.getQuantity();
+        if (!quantity.isEmpty()) {
+            sb.append(", ");
+            sb.append(quantity);
+        }
+        boolean isChecked = item.isChecked();
 
+        if (convertView != null) {
             CheckBox checkedView = convertView.findViewById(android.R.id.text1);
             checkedView.setText(sb);
             checkedView.setChecked(isChecked);
