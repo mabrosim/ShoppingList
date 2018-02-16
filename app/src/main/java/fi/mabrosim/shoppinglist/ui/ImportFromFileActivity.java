@@ -26,8 +26,8 @@ public class ImportFromFileActivity extends Activity {
         if (action != null) {
             if (action.compareTo(Intent.ACTION_VIEW) == 0) {
                 String scheme = intent.getScheme();
-                if ((BuildConfig.DEBUG && scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) ||
-                        (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0)) {
+                if (scheme != null && ((BuildConfig.DEBUG && scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) ||
+                        (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0))) {
                     ImportItemsTaskFactory.createAndExecute(getApplicationContext(), uri);
                 }
             }

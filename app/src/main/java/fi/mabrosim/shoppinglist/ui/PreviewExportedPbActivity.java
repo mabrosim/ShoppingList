@@ -22,13 +22,13 @@ public class PreviewExportedPbActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_pb);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mPreviewTv = (TextView) findViewById(R.id.previewPb);
+        mPreviewTv = findViewById(R.id.previewPb);
         new getItemsFromDb().execute();
     }
 

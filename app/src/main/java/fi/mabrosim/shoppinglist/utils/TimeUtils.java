@@ -11,7 +11,7 @@ public final class TimeUtils {
 
     private static final String HISTORY_TIMESTAMP_FORMAT = "yyyyMMddHHmmss";
 
-    public static Long DateAsLong(Date timestamp) {
+    public static Long dateAsLong(Date timestamp) {
         return Long.parseLong(new SimpleDateFormat(HISTORY_TIMESTAMP_FORMAT, Locale.getDefault()).format(timestamp));
     }
 }

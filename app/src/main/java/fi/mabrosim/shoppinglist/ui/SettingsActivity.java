@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    public void deleteAllFromDb(View view) {
+    public void deleteAllFromDb(@SuppressWarnings("unused") View view) {
         new DeleteAllTask(SettingsActivity.this).execute();
         Toast.makeText(SettingsActivity.this, "Database cleared", Toast.LENGTH_SHORT).show();
         finish();

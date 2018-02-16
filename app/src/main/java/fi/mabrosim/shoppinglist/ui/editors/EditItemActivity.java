@@ -34,13 +34,13 @@ public class EditItemActivity extends Activity implements ButtonClicksListener {
             mItem = Item.findById(Item.class, mItemDbId);
         }
 
-        mEditName = (EditText) findViewById(R.id.editName);
-        mEditQuantity = (EditText) findViewById(R.id.editQuantity);
-        mEditLabelName = (EditText) findViewById(R.id.editLabelName);
+        mEditName = findViewById(R.id.editName);
+        mEditQuantity = findViewById(R.id.editQuantity);
+        mEditLabelName = findViewById(R.id.editLabelName);
 
         for (int i = 0; i < EDIT_TEXT_IDS.length; i++) {
-            EditText editText = (EditText) findViewById(EDIT_TEXT_IDS[i]);
-            ImageButton imageButton = (ImageButton) findViewById(BUTTON_IDS.get(i));
+            EditText editText = findViewById(EDIT_TEXT_IDS[i]);
+            ImageButton imageButton = findViewById(BUTTON_IDS.get(i));
 
             editText.addTextChangedListener(new ButtonStateTextWatcher(imageButton));
             imageButton.setTag(R.id.cachedText, "");
@@ -66,7 +66,7 @@ public class EditItemActivity extends Activity implements ButtonClicksListener {
     public void onButtonClick(View view) {
         switch ((ButtonStateTextWatcher.STATE) view.getTag(R.id.buttonState)) {
             case CLEAR: {
-                EditText editText = (EditText) findViewById(EDIT_TEXT_IDS[BUTTON_IDS.indexOf(view.getId())]);
+                EditText editText = findViewById(EDIT_TEXT_IDS[BUTTON_IDS.indexOf(view.getId())]);
                 view.setTag(R.id.cachedText, editText.getText().toString());
                 editText.setText("");
                 break;

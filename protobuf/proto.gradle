@@ -19,7 +19,7 @@ project.afterEvaluate {
             try {
                 protoc(protoPath, javaOut, protoIn)
                 print "Java sources generated!"
-            } catch (Throwable e) {
+            } catch (Throwable ignored) {
                 print "Some problem, try in console: protoc --proto_path=./protobuf/proto --java_out=./protobuf/src/main/java ./protobuf/proto/shoppinglist.proto"
             }
         }

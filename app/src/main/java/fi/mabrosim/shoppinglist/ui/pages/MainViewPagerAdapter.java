@@ -1,5 +1,6 @@
 package fi.mabrosim.shoppinglist.ui.pages;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -49,6 +50,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         return newInstance(mFragmentTypes.get(position));
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         PageFragment fragment = (PageFragment) super.instantiateItem(container, position);

@@ -3,7 +3,6 @@
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- GoogleAppIndexingWarning: wear app is distributed bundled into the mobile app -->
     <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!-- SUGAR ORM START -->
         <meta-data

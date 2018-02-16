@@ -51,7 +51,7 @@ class MainActivityNavigationListener implements NavigationView.OnNavigationItemS
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = mActivity.findViewById(R.id.drawer_layout);
         if (drawer != null) {
             drawer.closeDrawer(GravityCompat.START);
         }

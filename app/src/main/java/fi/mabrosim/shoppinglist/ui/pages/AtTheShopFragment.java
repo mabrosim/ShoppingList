@@ -1,6 +1,7 @@
 package fi.mabrosim.shoppinglist.ui.pages;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +25,7 @@ public class AtTheShopFragment extends PageFragment<AtTheShopAdapter> {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ListView listView = getListView();

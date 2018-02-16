@@ -1,12 +1,12 @@
 package fi.mabrosim.shoppinglist.ui.pages;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +37,7 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mSearchListBg = view.findViewById(R.id.searchListBg);
@@ -53,7 +53,7 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
                 }
             }
         });
-        ListView searchListView = (ListView) view.findViewById(R.id.searchList);
+        ListView searchListView = view.findViewById(R.id.searchList);
         searchListView.setAdapter(mSearchListAdapter);
         searchListView.setOnItemClickListener(mOnItemClickListener);
     }
@@ -64,7 +64,7 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
 
         mSearchMenuItem = menu.findItem(R.id.action_search);
 
-        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, new OnActionExpandListener() {
+        mSearchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 mSearchListBg.setVisibility(View.VISIBLE);
@@ -79,28 +79,32 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
             }
         });
 
-        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        Activity activity = getActivity();
 
-        final SearchView searchView = mSearchMenuItem != null ? (SearchView) mSearchMenuItem.getActionView() : null;
+        if (activity != null) {
+            SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
 
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    if (!searchView.isIconified()) {
-                        searchView.setIconified(true);
+            final SearchView searchView = mSearchMenuItem != null ? (SearchView) mSearchMenuItem.getActionView() : null;
+
+            if (searchManager != null && searchView != null) {
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        if (!searchView.isIconified()) {
+                            searchView.setIconified(true);
+                        }
+                        mSearchMenuItem.collapseActionView();
+                        return false;
                     }
-                    mSearchMenuItem.collapseActionView();
-                    return false;
-                }
 
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    mSearchListAdapter.notifyDataSetInvalidated(s);
-                    return false;
-                }
-            });
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        mSearchListAdapter.notifyDataSetInvalidated(s);
+                        return false;
+                    }
+                });
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -149,10 +153,13 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
     }
 
     void launchEditItemActivity(long id) {
-        Intent intent = new Intent(getActivity(), EditItemActivity.class);
-        intent.putExtra(Actions.EXTRA_RECORD_ID, id);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        Activity activity = getActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, EditItemActivity.class);
+            intent.putExtra(Actions.EXTRA_RECORD_ID, id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(intent);
+        }
     }
 
     private final OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
