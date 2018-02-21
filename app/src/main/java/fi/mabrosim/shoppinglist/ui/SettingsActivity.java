@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import fi.mabrosim.shoppinglist.R;
 import fi.mabrosim.shoppinglist.tasks.DeleteAllTask;
-import fi.mabrosim.shoppinglist.tasks.ShareCsvFileTask;
-import fi.mabrosim.shoppinglist.tasks.ShareJsonFileTask;
+import fi.mabrosim.shoppinglist.tasks.ShareFileTask;
+import fi.mabrosim.shoppinglist.utils.FileType;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -50,14 +50,16 @@ public class SettingsActivity extends AppCompatActivity {
         findViewById(R.id.settings_export_to_csv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareCsvFileTask(SettingsActivity.this).execute();
+                new ShareFileTask(SettingsActivity.this, FileType.CSV).execute();
+                finish();
             }
         });
 
         findViewById(R.id.settings_export_to_json).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareJsonFileTask(SettingsActivity.this).execute();
+                new ShareFileTask(SettingsActivity.this, FileType.JSON).execute();
+                finish();
             }
         });
     }
