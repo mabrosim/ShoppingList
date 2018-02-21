@@ -8,8 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import fi.mabrosim.shoppinglist.R;
-import fi.mabrosim.shoppinglist.tasks.ShareProtoFileTask;
+import fi.mabrosim.shoppinglist.tasks.ShareFileTask;
 import fi.mabrosim.shoppinglist.ui.editors.AddItemListActivity;
+import fi.mabrosim.shoppinglist.utils.FileType;
 
 class MainActivityNavigationListener implements NavigationView.OnNavigationItemSelectedListener {
     private final MainActivity mActivity;
@@ -25,7 +26,7 @@ class MainActivityNavigationListener implements NavigationView.OnNavigationItemS
 
         switch (id) {
             case R.id.nav_share_pb:
-                new ShareProtoFileTask(mActivity).execute();
+                new ShareFileTask(mActivity, FileType.PROTO).execute();
                 break;
             case R.id.nav_import: {
                 Intent intent = new Intent(mActivity, ImportFromFileActivity.class);
