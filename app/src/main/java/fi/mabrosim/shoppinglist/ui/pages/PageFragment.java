@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import fi.mabrosim.shoppinglist.R;
@@ -56,11 +57,13 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
         ListView searchListView = view.findViewById(R.id.searchList);
         searchListView.setAdapter(mSearchListAdapter);
         searchListView.setOnItemClickListener(mOnItemClickListener);
+        searchListView.setOnItemLongClickListener(mOnItemLongClickListener);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.item_search, menu);
+        inflater.inflate(R.menu.add_item, menu);
 
         mSearchMenuItem = menu.findItem(R.id.action_search);
 
@@ -161,6 +164,14 @@ public abstract class PageFragment<T extends RecordListener> extends ListFragmen
             activity.startActivity(intent);
         }
     }
+
+    final OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            launchEditItemActivity(id);
+            return true;
+        }
+    };
 
     private final OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override

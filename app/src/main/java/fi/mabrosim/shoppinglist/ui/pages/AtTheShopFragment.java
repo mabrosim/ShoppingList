@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import fi.mabrosim.shoppinglist.R;
@@ -39,17 +38,8 @@ public class AtTheShopFragment extends PageFragment<AtTheShopAdapter> {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.magic_cat, menu);
-        inflater.inflate(R.menu.add_item, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    private final OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            launchEditItemActivity(id);
-            return true;
-        }
-    };
 
     private final OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
         @Override
