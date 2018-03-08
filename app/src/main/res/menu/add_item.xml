@@ -8,6 +8,6 @@
         android:menuCategory="secondary"
         android:orderInCategory="50"
         android:title="@string/add_item"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
 </menu>

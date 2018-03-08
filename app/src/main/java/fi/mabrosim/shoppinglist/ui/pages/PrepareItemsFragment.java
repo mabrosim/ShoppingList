@@ -40,7 +40,6 @@ public class PrepareItemsFragment extends PageFragment<PrepareItemsAdapter> {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_item, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
